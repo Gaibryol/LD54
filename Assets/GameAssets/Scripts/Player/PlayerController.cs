@@ -6,11 +6,15 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
 	private Rigidbody2D rbody;
-	private CapsuleCollider2D coll;
+	private BoxCollider2D coll;
+	private Animator anim;
 
 	private PlayerControls playerControls;
 	private InputAction move;
 	private InputAction jump;
+
+	private bool canPressLeftButton;
+	private bool canPressRightButton;
 
 	private bool grounded;
 
@@ -22,8 +26,12 @@ public class PlayerController : MonoBehaviour
 	private void Awake()
 	{
 		rbody = GetComponent<Rigidbody2D>();
-		coll = GetComponent<CapsuleCollider2D>();
+		coll = GetComponent<BoxCollider2D>();
+		anim = GetComponent<Animator>();
 		playerControls = new PlayerControls();
+
+		canPressLeftButton = true;
+		canPressRightButton = true;
 
 		grounded = false;
 	}
@@ -32,9 +40,24 @@ public class PlayerController : MonoBehaviour
 	{
 		if (grounded)
 		{
+			anim.SetTrigger(Constants.Player.JumpAnimTrigger);
 			rbody.AddForce(new Vector2(0, jumpStrength), ForceMode2D.Impulse);
 			return;
 		}
+	}
+
+	private IEnumerator StartLeftButtonCooldown()
+	{
+		canPressLeftButton = false;
+		yield return new WaitForSeconds(Constants.ButtonCooldown);
+		canPressLeftButton = true;
+	}
+
+	private IEnumerator StartRightButtonCooldown()
+	{
+		canPressRightButton = false;
+		yield return new WaitForSeconds(Constants.ButtonCooldown);
+		canPressRightButton = true;
 	}
 
 	private void OnEnable()
@@ -57,19 +80,44 @@ public class PlayerController : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		// Assign player velocity
 		Vector2 moveDirection = move.ReadValue<Vector2>();
 		rbody.velocity = new Vector2(moveDirection.x * moveSpeed, rbody.velocity.y);
+		transform.localScale = new Vector2(rbody.velocity.x > 0 ? -1 : 1, 1);
+		anim.SetBool(Constants.Player.MovingAnimBool, (moveDirection.x != 0 && grounded));
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
+		//Debug.Log("Bottom: " + Mathf.Abs(collision.GetContact(0).point.y - (transform.position.y - (coll.bounds.size.y * 0.5f))) + " Top: " + Mathf.Abs(collision.GetContact(0).point.y - (transform.position.y + (coll.bounds.size.y * 0.5f))));
 		if (collision.transform.tag == Constants.GroundTag && Mathf.Abs(collision.GetContact(0).point.y - (transform.position.y - (coll.bounds.size.y * 0.5f))) <= Constants.Player.AllowedCollisionMargin)
 		{
+			// Player collided with the top of an object
+			anim.SetTrigger(Constants.Player.LandAnimTrigger);
 			grounded = true;
 		}
-		else if (Mathf.Abs(collision.GetContact(0).point.y - (transform.position.y + (coll.bounds.size.y * 0.5f))) <= Constants.Player.AllowedCollisionMargin)
+		else if (collision.transform.tag == Constants.GroundTag && Mathf.Abs(collision.GetContact(0).point.y - (transform.position.y + (coll.bounds.size.y * 0.5f))) <= Constants.Player.AllowedCollisionMargin && grounded)
 		{
+			// Player collided with the bottom of an object while grounded
 			eventBroker.Publish(this, new GameStateEvents.EndGame());
+		}
+		else if (collision.transform.tag == Constants.LeftButtonTag)
+		{
+			// Rotate block counter clockwise
+			if (canPressLeftButton)
+			{
+				collision.transform.GetComponent<Animator>().SetTrigger(Constants.ButtonAnimTrigger);
+				StartCoroutine(StartLeftButtonCooldown());
+			}
+		}
+		else if (collision.transform.tag == Constants.RightButtonTag)
+		{
+			// Rotate block clockwise
+			if (canPressRightButton)
+			{
+				collision.transform.GetComponent<Animator>().SetTrigger(Constants.ButtonAnimTrigger);
+				StartCoroutine(StartRightButtonCooldown());
+			}
 		}
 	}
 
@@ -77,6 +125,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (collision.transform.tag == Constants.GroundTag)
 		{
+			// Player is no longer grounded
 			grounded = false;
 		}
 	}
