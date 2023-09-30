@@ -23,4 +23,14 @@ public class TetrisEvents
             Clockwise = clockwise;
         }
     }
+
+    public class UpdateGuideWindow
+    {
+        public readonly PieceTemplate PieceTemplate;
+
+        public UpdateGuideWindow(PieceTemplate pieceTemplate)
+        {
+            PieceTemplate = pieceTemplate;
+        }
+    }
 }

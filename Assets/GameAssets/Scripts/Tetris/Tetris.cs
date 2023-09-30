@@ -11,7 +11,7 @@ public class Tetris : MonoBehaviour
     [SerializeField] private TetrisPieces tetrisPieces;
 
     [SerializeField] private Block blockTemplate;
-    [SerializeField] private Transform guide;
+    [SerializeField] private GameObject LineClearTemplate;
 
     #region Current 
     private List<Block> activeBlocks;
@@ -73,8 +73,7 @@ public class Tetris : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2Int position = MapPlayerLocation();
-        guide.localPosition = new Vector3(position.y * TetrisConstants.BLOCK_SIZE, guide.localPosition.y, guide.localPosition.z);
+        
     }
 
     #region Preview
@@ -104,6 +103,12 @@ public class Tetris : MonoBehaviour
         }
         pieceToSpawn = nextPiecesTemplates[nextIndex];
         eventBrokerComponent.Publish(this, new TetrisEvents.UpdatePreviewWindow(pieceToSpawn));
+        eventBrokerComponent.Publish(this, new TetrisEvents.UpdateGuideWindow(pieceToSpawn));
+    }
+
+    private void UpdateGuideWindow()
+    {
+        eventBrokerComponent.Publish(this, new TetrisEvents.UpdateGuideWindow(pieceToSpawn));
     }
     #endregion
 
@@ -186,6 +191,8 @@ public class Tetris : MonoBehaviour
         if (rows.Count == 0) return;
         foreach (int row in rows)
         {
+            GameObject lineClear = Instantiate(LineClearTemplate, transform);
+            lineClear.transform.localPosition = new Vector3(TetrisConstants.COLS * TetrisConstants.BLOCK_SIZE / 2, -row * TetrisConstants.BLOCK_SIZE);
             foreach(Block block in playspace.GetAllBlocksInRow(row))
             {
                 allBlocks.Remove(block);
@@ -240,6 +247,7 @@ public class Tetris : MonoBehaviour
                     break;
                 }
                 GetNextPiece();
+                UpdateGuideWindow();
             } else
             {
                 MovePiece();
