@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
+		// Increment score if playing
 		if (isPlaying)
 		{
 			Score = (int)(Score + Time.deltaTime);
