@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: d2cef9bdba427f44b9a14ac4d105bdcc, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: ed0c02ad2ad099f43823d4c3d72cbc8b, type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -397,7 +397,7 @@ MonoBehaviour:
     m_ActionId: 4755a1e8-0b83-4b0e-ab83-91e036799ecb
     m_ActionName: Player/Jump[/Keyboard/w,/Keyboard/upArrow,/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 519420031}
@@ -413,6 +413,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a86b604465f414b83b76f1e9bf6f5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 3
+  jumpStrength: 5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
