@@ -9,9 +9,14 @@ public class Block : MonoBehaviour
 
     private void Start()
     {
-        GetComponent<SpriteRenderer>().color = UnityEngine.Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+        //GetComponent<SpriteRenderer>().color = UnityEngine.Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         name = UnityEngine.Random.Range(0, 100).ToString();
     }
+
+	public void AssignSprite(Sprite newSprite)
+	{
+		GetComponent<SpriteRenderer>().sprite = newSprite;
+	}
 
     public Vector2Int DetermineNewPosition()
     {

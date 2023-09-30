@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
 
 	private readonly EventBrokerComponent eventBroker = new EventBrokerComponent();
 
+	private Vector3 spawnPos;
+
 	[SerializeField] private float moveSpeed;
 	[SerializeField] private float jumpStrength;
 
@@ -31,16 +33,26 @@ public class PlayerController : MonoBehaviour
 		anim = GetComponent<Animator>();
 		playerControls = new PlayerControls();
 
+		spawnPos = transform.position;
+
+		Init();
+	}
+
+	private void Init()
+	{
 		canPressLeftButton = true;
 		canPressRightButton = true;
 
 		grounded = false;
+
+		transform.position = spawnPos;
 	}
 
 	private void Jump(InputAction.CallbackContext context)
 	{
 		if (grounded)
 		{
+			grounded = false;
 			anim.SetTrigger(Constants.Player.JumpAnimTrigger);
 			rbody.AddForce(new Vector2(0, jumpStrength), ForceMode2D.Impulse);
 			return;
@@ -71,6 +83,7 @@ public class PlayerController : MonoBehaviour
 		jump.Enable();
 
 		eventBroker.Subscribe<PlayerEvents.GetPlayerWorldLocation>(GetPlayerWorldLocationHandler);
+		eventBroker.Subscribe<GameStateEvents.RestartGame>(RestartGameHandler);
 	}
 
 	private void OnDisable()
@@ -81,9 +94,15 @@ public class PlayerController : MonoBehaviour
 		jump.Disable();
 
         eventBroker.Unsubscribe<PlayerEvents.GetPlayerWorldLocation>(GetPlayerWorldLocationHandler);
-    }
+		eventBroker.Unsubscribe<GameStateEvents.RestartGame>(RestartGameHandler);
+	}
 
-    private void GetPlayerWorldLocationHandler(BrokerEvent<PlayerEvents.GetPlayerWorldLocation> inEvent)
+	private void RestartGameHandler(BrokerEvent<GameStateEvents.RestartGame> inEvent)
+	{
+		Init();
+	}
+
+	private void GetPlayerWorldLocationHandler(BrokerEvent<PlayerEvents.GetPlayerWorldLocation> inEvent)
     {
 		inEvent.Payload.WorldPosition = transform.position;
     }
@@ -99,19 +118,48 @@ public class PlayerController : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		//Debug.Log("Bottom: " + Mathf.Abs(collision.GetContact(0).point.y - (transform.position.y - (coll.bounds.size.y * 0.5f))) + " Top: " + Mathf.Abs(collision.GetContact(0).point.y - (transform.position.y + (coll.bounds.size.y * 0.5f))));
-		if (collision.transform.tag == Constants.GroundTag && Mathf.Abs(collision.GetContact(0).point.y - (transform.position.y - (coll.bounds.size.y * 0.5f))) <= Constants.Player.AllowedCollisionMargin)
+		RaycastHit2D rayUpA = Physics2D.Raycast(new Vector2(transform.position.x - (coll.bounds.size.x / 2f), transform.position.y), Vector2.up, 0.3f, ~LayerMask.GetMask(Constants.Player.Tag));
+		RaycastHit2D rayUpB = Physics2D.Raycast(new Vector2(transform.position.x + (coll.bounds.size.x / 2f), transform.position.y), Vector2.up, 0.3f, ~LayerMask.GetMask(Constants.Player.Tag));
+		RaycastHit2D rayDownA = Physics2D.Raycast(new Vector2(transform.position.x - (coll.bounds.size.x / 2f), transform.position.y), Vector2.down, 0.3f, ~LayerMask.GetMask(Constants.Player.Tag));
+		RaycastHit2D rayDownB = Physics2D.Raycast(new Vector2(transform.position.x + (coll.bounds.size.x / 2f), transform.position.y), Vector2.down, 0.3f, ~LayerMask.GetMask(Constants.Player.Tag));
+
+		if (rayUpA.collider != null)
 		{
-			// Player collided with the top of an object
-			anim.SetTrigger(Constants.Player.LandAnimTrigger);
-			grounded = true;
+			if (rayUpA.collider.tag == Constants.GroundTag)
+			{
+				// Player collided with the bottom of an object while grounded
+				eventBroker.Publish(this, new GameStateEvents.EndGame());
+			}
 		}
-		else if (collision.transform.tag == Constants.GroundTag && Mathf.Abs(collision.GetContact(0).point.y - (transform.position.y + (coll.bounds.size.y * 0.5f))) <= Constants.Player.AllowedCollisionMargin && grounded)
+		else if (rayUpB.collider != null)
 		{
-			// Player collided with the bottom of an object while grounded
-			eventBroker.Publish(this, new GameStateEvents.EndGame());
+			if (rayUpB.collider.tag == Constants.GroundTag)
+			{
+				// Player collided with the bottom of an object while grounded
+				eventBroker.Publish(this, new GameStateEvents.EndGame());
+			}
 		}
-		else if (collision.transform.tag == Constants.LeftButtonTag)
+
+		if (rayDownA.collider != null)
+		{
+			if (rayDownA.collider.tag == Constants.GroundTag)
+			{
+				// Player collided with the top of an object
+				anim.SetTrigger(Constants.Player.LandAnimTrigger);
+				grounded = true;
+			}
+		}
+		else if (rayDownB.collider != null)
+		{
+			if (rayDownB.collider.tag == Constants.GroundTag)
+			{
+				// Player collided with the top of an object
+				anim.SetTrigger(Constants.Player.LandAnimTrigger);
+				grounded = true;
+			}
+		}
+
+		if (collision.transform.tag == Constants.LeftButtonTag)
 		{
 			// Rotate block counter clockwise
 			if (canPressLeftButton)
@@ -133,11 +181,18 @@ public class PlayerController : MonoBehaviour
         }
 	}
 
-	private void OnCollisionExit2D(Collision2D collision)
+	private void OnCollisionStay2D(Collision2D collision)
 	{
 		if (collision.transform.tag == Constants.GroundTag)
 		{
-			// Player is no longer grounded
+			grounded = true;
+		}
+	}
+
+	private void OnCollisionExit2D(Collision2D collision)
+	{
+		if (collision.transform.tag == Constants.GroundTag && grounded)
+		{
 			grounded = false;
 		}
 	}

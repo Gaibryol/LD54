@@ -131,7 +131,6 @@ public class Tetris : MonoBehaviour
         float originXPosition = transform.position.x;
 
         int adjustedPosition = Mathf.RoundToInt((playerXPosition - originXPosition)/TetrisConstants.BLOCK_SIZE);
-        Debug.Log(adjustedPosition);
         return new Vector2Int(0, adjustedPosition);
     }
 
@@ -237,7 +236,7 @@ public class Tetris : MonoBehaviour
                 SpawnPiece();
                 if (!IsValidSpawn() || !BlockPassedThreshold())
                 {
-                    Debug.Log("Game over");
+					eventBrokerComponent.Publish(this, new GameStateEvents.EndGame());
                     break;
                 }
                 GetNextPiece();

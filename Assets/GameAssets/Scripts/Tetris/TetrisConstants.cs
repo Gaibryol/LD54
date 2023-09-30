@@ -6,7 +6,7 @@ public static class TetrisConstants
 {
     public const float SPAWN_INTERVAL = 5f;
     public const int DEATH_HEIGHT = 3;
-    public const float BLOCK_SIZE = .36f;
+    public const float BLOCK_SIZE = 0.333f;
     public const float TICK_RATE = .5f;
 
     public const int ROWS = 24;

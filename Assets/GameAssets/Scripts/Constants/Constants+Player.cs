@@ -9,5 +9,6 @@ public partial class Constants
 		public const string MovingAnimBool = "IsMoving";
 		public const float AllowedCollisionMargin = 0.025f;
 		public const float JumpCooldown = 0.154f;
+		public const string Highscore = "Highscore";
 	}
 }

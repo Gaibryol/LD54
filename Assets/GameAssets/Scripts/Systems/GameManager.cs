@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-	public int Score;
+	public float Score;
 
 	private readonly EventBrokerComponent eventBroker = new EventBrokerComponent();
 
@@ -28,13 +28,33 @@ public class GameManager : MonoBehaviour
 		// Increment score if playing
 		if (isPlaying)
 		{
-			Score = (int)(Score + Time.deltaTime);
+			Score += Time.deltaTime;
+		}
+	}
+
+	private void HandleHighscore()
+	{
+		// Check
+		int hs = PlayerPrefs.GetInt(Constants.Player.Highscore, 0);
+
+		if (hs != 0)
+		{
+			if (Score > hs)
+			{
+				// New highscore, display somewhere
+
+				// Save new highscore
+				PlayerPrefs.SetInt(Constants.Player.Highscore, (int)Score);
+				PlayerPrefs.Save();
+			}
 		}
 	}
 
 	private void EndGameHandler(BrokerEvent<GameStateEvents.EndGame> inEvent)
 	{
 		isPlaying = false;
+
+		HandleHighscore();
 	}
 
 	private void RestartGameHandler(BrokerEvent<GameStateEvents.RestartGame> inEvent)

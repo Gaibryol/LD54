@@ -40,6 +40,4 @@ MonoBehaviour:
   pieceCenter: {x: 0, y: 0}
   blocksLeftOfCenter: 0
   blockRightOfCenter: 0
-  isSymmetrical: 0
-  has360Rotation: 0
-  currentRotation: 0
+  blockSprite: {fileID: 21300000, guid: fbf9f1e6892c8ce49b815e39f807052c, type: 3}

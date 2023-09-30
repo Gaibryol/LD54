@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		scoreText.text = gameManager.Score.ToString();
+		scoreText.text = ((int)gameManager.Score).ToString();
 	}
 
 	private void StartGameHandler(BrokerEvent<GameStateEvents.StartGame> inEvent)
@@ -34,7 +34,7 @@ public class UIManager : MonoBehaviour
 	private void EndGameHandler(BrokerEvent<GameStateEvents.EndGame> inEvent)
 	{
 		endScreen.SetActive(true);
-		finalScoreText.text = gameManager.Score.ToString();
+		finalScoreText.text = scoreText.text;
 	}
 
 	private void RestartGame()

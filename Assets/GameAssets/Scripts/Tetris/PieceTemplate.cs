@@ -17,6 +17,7 @@ public class PieceTemplate : ScriptableObject
     public Vector2Int pieceCenter;
     public int blocksLeftOfCenter; // Blocks from center
     public int blockRightOfCenter; // Blocks from center
+	public Sprite blockSprite;
 
     public List<Block> SpawnTemplate(Block blockTemplate, Vector2Int startingSpawnPosition, Transform parent, bool constrain = true)
     {
@@ -32,7 +33,6 @@ public class PieceTemplate : ScriptableObject
         }
 
         List<Block> blocks = new List<Block>();
-        //Piece piece = Instantiate(pieceTemplate, startingSpawnPosition, Quaternion.identity);
         for (int i = 0; i < TetrisConstants.ROWS; i++)
         {
             for (int j = 0; j < TetrisConstants.COLS; j++)
@@ -46,6 +46,7 @@ public class PieceTemplate : ScriptableObject
                 Block block = Instantiate(blockTemplate, parent);
                 block.transform.localPosition = worldSpawnPosition;
                 block.localPosition = localSpawnOffset + startingSpawnPosition;
+				block.AssignSprite(blockSprite);
                 blocks.Add(block);
             }
         }
