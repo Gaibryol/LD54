@@ -5,9 +5,9 @@ using UnityEngine;
 public static class TetrisConstants
 {
     public const float SPAWN_INTERVAL = 5f;
-    public const int SPAWN_HEIGHT = 20;
-    public const int BLOCK_SIZE = 1;
-    public const float TICK_RATE = .1f;
+    public const int DEATH_HEIGHT = 3;
+    public const float BLOCK_SIZE = .36f;
+    public const float TICK_RATE = .5f;
 
     public const int ROWS = 24;
     public const int COLS = 10;

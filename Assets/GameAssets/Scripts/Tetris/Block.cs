@@ -26,15 +26,15 @@ public class Block : MonoBehaviour
     public void AddPositionOffset(int offset=1)
     {
         localPosition += new Vector2Int(1*offset, 0);
-        Vector3 currentPosition = transform.position;
+        Vector3 currentPosition = transform.localPosition;
         Vector3 newPosition = new Vector3(currentPosition.x, currentPosition.y - TetrisConstants.BLOCK_SIZE * offset, currentPosition.z);
-        transform.position = newPosition;
+        transform.localPosition = newPosition;
     }
 
     public void SetPosition(Vector2Int position)
     {
         localPosition = position;
-        Vector2Int worldposition = position * TetrisConstants.BLOCK_SIZE;
-        transform.position = new Vector3(worldposition.y, worldposition.x * -1, transform.position.z);
+        Vector2 worldposition = (Vector2)position * TetrisConstants.BLOCK_SIZE;
+        transform.localPosition = new Vector3(worldposition.y, worldposition.x * -1, transform.localPosition.z);
     }
 }

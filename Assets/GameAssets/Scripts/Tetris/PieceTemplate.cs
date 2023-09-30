@@ -18,7 +18,7 @@ public class PieceTemplate : ScriptableObject
     public int blocksLeftOfCenter; // Blocks from center
     public int blockRightOfCenter; // Blocks from center
 
-    public List<Block> SpawnTemplate(Block blockTemplate, Vector2Int startingSpawnPosition, bool constrain = true)
+    public List<Block> SpawnTemplate(Block blockTemplate, Vector2Int startingSpawnPosition, Transform parent, bool constrain = true)
     {
         if (constrain)
         {
@@ -40,10 +40,11 @@ public class PieceTemplate : ScriptableObject
                 if (!pieceDefinition[i].cols[j]) continue;
 
                 Vector2Int localSpawnOffset = new Vector2Int(i, j) - pieceCenter;
-                Vector2 localSpawnPosition = localSpawnOffset * TetrisConstants.BLOCK_SIZE;
-                Vector2 worldSpawnPosition = startingSpawnPosition * TetrisConstants.BLOCK_SIZE + localSpawnPosition * new Vector2Int(-1, 1);
+                Vector2 localSpawnPosition = (Vector2)localSpawnOffset * TetrisConstants.BLOCK_SIZE;
+                Vector2 worldSpawnPosition = (Vector2)startingSpawnPosition * TetrisConstants.BLOCK_SIZE + localSpawnPosition * new Vector2(-1, 1);
                 worldSpawnPosition = new Vector2(worldSpawnPosition.y, worldSpawnPosition.x);
-                Block block = Instantiate(blockTemplate, worldSpawnPosition, Quaternion.identity);
+                Block block = Instantiate(blockTemplate, parent);
+                block.transform.localPosition = worldSpawnPosition;
                 block.localPosition = localSpawnOffset + startingSpawnPosition;
                 blocks.Add(block);
             }

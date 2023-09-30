@@ -13,4 +13,14 @@ public class TetrisEvents
             PieceTemplate = pieceTemplate;
         }
     }
+
+    public class RotatePreviewBlock
+    {
+        public readonly bool Clockwise;
+
+        public RotatePreviewBlock(bool clockwise)
+        {
+            Clockwise = clockwise;
+        }
+    }
 }

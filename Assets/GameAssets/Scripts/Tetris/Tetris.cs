@@ -11,6 +11,7 @@ public class Tetris : MonoBehaviour
     [SerializeField] private TetrisPieces tetrisPieces;
 
     [SerializeField] private Block blockTemplate;
+    [SerializeField] private Transform guide;
 
     #region Current 
     private List<Block> activeBlocks;
@@ -24,40 +25,56 @@ public class Tetris : MonoBehaviour
 
     private List<Block> allBlocks;
 
-    private float gameTime;
-    private TetrisConstants.GameState gameState;
+    private bool playing;
 
     private EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
     void Start()
     {
-        playspace = new Playspace();
-        gameState = TetrisConstants.GameState.Waiting;
+        GetNextPiece();
+    }
+
+    private void OnEnable()
+    {
+        eventBrokerComponent.Subscribe<TetrisEvents.RotatePreviewBlock>(RotatePreviewBlockHandler);
+        eventBrokerComponent.Subscribe<GameStateEvents.StartGame>(StartGameHandler);
+        eventBrokerComponent.Subscribe<GameStateEvents.RestartGame>(RestartGameHandler);
+    }
+
+    private void OnDisable()
+    {
+        eventBrokerComponent.Unsubscribe<TetrisEvents.RotatePreviewBlock>(RotatePreviewBlockHandler);
+        eventBrokerComponent.Unsubscribe<GameStateEvents.StartGame>(StartGameHandler);
+        eventBrokerComponent.Unsubscribe<GameStateEvents.RestartGame>(RestartGameHandler);
+    }
+
+    private void RestartGameHandler(BrokerEvent<GameStateEvents.RestartGame> @event)
+    {
+        foreach (Block block in  allBlocks)
+        {
+            Destroy(block.gameObject);
+        }
+        StartGame();
+    }
+
+    private void StartGameHandler(BrokerEvent<GameStateEvents.StartGame> @event)
+    {
         StartGame();
     }
 
     public void StartGame()
     {
-        gameTime = 0f;
+        playspace = new Playspace();
         activeBlocks = new List<Block>();
         allBlocks = new List<Block>();
-        gameState = TetrisConstants.GameState.Playing;
-
-        GetNextPiece();
+        playing = true;
 
         StartCoroutine(TickPiece());
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        if (gameState != TetrisConstants.GameState.Playing) return;
-        gameTime += Time.deltaTime;
-
-        
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            RotatePreviewPiece(true);
-        }
+        Vector2Int position = MapPlayerLocation();
+        guide.localPosition = new Vector3(position.y * TetrisConstants.BLOCK_SIZE, guide.localPosition.y, guide.localPosition.z);
     }
 
     #region Preview
@@ -66,6 +83,11 @@ public class Tetris : MonoBehaviour
         nextPiecesTemplates = tetrisPieces.GetRandomTemplateList();
         pieceToSpawn = nextPiecesTemplates[Random.Range(0, nextPiecesTemplates.Length)];
         eventBrokerComponent.Publish(this, new TetrisEvents.UpdatePreviewWindow(pieceToSpawn));
+    }
+
+    private void RotatePreviewBlockHandler(BrokerEvent<TetrisEvents.RotatePreviewBlock> inEvent)
+    {
+        RotatePreviewPiece(inEvent.Payload.Clockwise);
     }
 
     public void RotatePreviewPiece(bool clockwise)
@@ -91,12 +113,27 @@ public class Tetris : MonoBehaviour
     {
         currentTemplate = pieceToSpawn;
         // TODO: Change Spawn location to player location
-        List<Block> newBlocks = currentTemplate.SpawnTemplate(blockTemplate, new Vector2Int(0, counter%TetrisConstants.COLS));
+
+        //List<Block> newBlocks = currentTemplate.SpawnTemplate(blockTemplate, new Vector2Int(0, counter%TetrisConstants.COLS), transform);
+        List<Block> newBlocks = currentTemplate.SpawnTemplate(blockTemplate, MapPlayerLocation(), transform);
         counter += 1;
         activeBlocks.AddRange(newBlocks);
         allBlocks.AddRange(newBlocks);
     }
 
+    private Vector2Int MapPlayerLocation()
+    {
+        PlayerEvents.GetPlayerWorldLocation e = new PlayerEvents.GetPlayerWorldLocation();
+        eventBrokerComponent.Publish(this, e);
+        Vector3 playerWorldPosition = e.WorldPosition;
+
+        float playerXPosition = playerWorldPosition.x;
+        float originXPosition = transform.position.x;
+
+        int adjustedPosition = Mathf.RoundToInt((playerXPosition - originXPosition)/TetrisConstants.BLOCK_SIZE);
+        Debug.Log(adjustedPosition);
+        return new Vector2Int(0, adjustedPosition);
+    }
 
     private bool IsValidSpawn()
     {
@@ -169,23 +206,36 @@ public class Tetris : MonoBehaviour
             {
                 Vector2Int blockPosition = block.GetCurrentPosition();
                 playspace.SetBoard(blockPosition, null);
-                Vector2Int newPosition = playspace.GetNextFreeSpaceInCol(blockPosition);
-                block.AddPositionOffset(newPosition.x - blockPosition.x);
+                Vector2 newPosition = playspace.GetNextFreeSpaceInCol(blockPosition);
+                block.AddPositionOffset((int)(newPosition.x - blockPosition.x));
                 playspace.SetBoard(block.GetCurrentPosition(), block);
             }
         }
     }
+    #endregion
 
+    #region End Condition
+    private bool BlockPassedThreshold()
+    {
+        for (int row = TetrisConstants.DEATH_HEIGHT; row >= 0; row--)
+        {
+            if (playspace.GetAllBlocksInRow(row).Exists(x => x != null))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
     #endregion
 
     private IEnumerator TickPiece()
     {
-        while (true)
+        while (playing)
         {
             if (activeBlocks.Count == 0)
             {
                 SpawnPiece();
-                if (!IsValidSpawn())
+                if (!IsValidSpawn() || !BlockPassedThreshold())
                 {
                     Debug.Log("Game over");
                     break;

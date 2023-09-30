@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -68,6 +69,8 @@ public class PlayerController : MonoBehaviour
 		jump = playerControls.Player.Jump;
 		jump.performed += Jump;
 		jump.Enable();
+
+		eventBroker.Subscribe<PlayerEvents.GetPlayerWorldLocation>(GetPlayerWorldLocationHandler);
 	}
 
 	private void OnDisable()
@@ -76,9 +79,16 @@ public class PlayerController : MonoBehaviour
 
 		jump.performed -= Jump;
 		jump.Disable();
-	}
 
-	private void FixedUpdate()
+        eventBroker.Unsubscribe<PlayerEvents.GetPlayerWorldLocation>(GetPlayerWorldLocationHandler);
+    }
+
+    private void GetPlayerWorldLocationHandler(BrokerEvent<PlayerEvents.GetPlayerWorldLocation> inEvent)
+    {
+		inEvent.Payload.WorldPosition = transform.position;
+    }
+
+    private void FixedUpdate()
 	{
 		// Assign player velocity
 		Vector2 moveDirection = move.ReadValue<Vector2>();
@@ -108,6 +118,7 @@ public class PlayerController : MonoBehaviour
 			{
 				collision.transform.GetComponent<Animator>().SetTrigger(Constants.ButtonAnimTrigger);
 				StartCoroutine(StartLeftButtonCooldown());
+				eventBroker.Publish(this, new TetrisEvents.RotatePreviewBlock(false));
 			}
 		}
 		else if (collision.transform.tag == Constants.RightButtonTag)
@@ -117,8 +128,9 @@ public class PlayerController : MonoBehaviour
 			{
 				collision.transform.GetComponent<Animator>().SetTrigger(Constants.ButtonAnimTrigger);
 				StartCoroutine(StartRightButtonCooldown());
-			}
-		}
+                eventBroker.Publish(this, new TetrisEvents.RotatePreviewBlock(true));
+            }
+        }
 	}
 
 	private void OnCollisionExit2D(Collision2D collision)

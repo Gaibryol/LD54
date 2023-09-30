@@ -55,7 +55,7 @@ public class Playspace
         return lines;
     }
 
-    public Vector2Int GetNextFreeSpaceInCol(Vector2Int position)
+    public Vector2 GetNextFreeSpaceInCol(Vector2Int position)
     {
         Vector2Int freePosition = position;
         for (int row = freePosition.x + 1; row < TetrisConstants.ROWS; ++row)
