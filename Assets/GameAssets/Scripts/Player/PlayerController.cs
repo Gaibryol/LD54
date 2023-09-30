@@ -9,9 +9,11 @@ public class PlayerController : MonoBehaviour
 	private CapsuleCollider2D coll;
 
 	private PlayerControls playerControls;
-	private InputAction moveLeft;
-	private InputAction moveRight;
+	private InputAction move;
 	private InputAction jump;
+
+	[SerializeField] private float moveSpeed;
+	[SerializeField] private float jumpStrength;
 
 	private void Awake()
 	{
@@ -20,33 +22,15 @@ public class PlayerController : MonoBehaviour
 		playerControls = new PlayerControls();
 	}
 
-	private void MoveLeft(InputAction.CallbackContext context)
-	{
-		Debug.Log("left");
-		rbody.AddForce(new Vector2(-5, 0));
-	}
-
-	private void MoveRight(InputAction.CallbackContext context)
-	{
-		Debug.Log("right");
-		rbody.AddForce(new Vector2(5, 0));
-	}
-
 	private void Jump(InputAction.CallbackContext context)
 	{
-		Debug.Log("Jump");
-		rbody.AddForce(new Vector2(0, 5));
+		rbody.AddForce(new Vector2(0, jumpStrength), ForceMode2D.Impulse);
 	}
 
 	private void OnEnable()
 	{
-		moveLeft = playerControls.Player.Left;
-		moveLeft.performed += MoveLeft;
-		moveLeft.Enable();
-
-		moveRight = playerControls.Player.Right;
-		moveRight.performed += MoveRight;
-		moveRight.Enable();
+		move = playerControls.Player.Move;
+		move.Enable();
 
 		jump = playerControls.Player.Jump;
 		jump.performed += Jump;
@@ -55,13 +39,15 @@ public class PlayerController : MonoBehaviour
 
 	private void OnDisable()
 	{
-		moveLeft.performed -= MoveLeft;
-		moveLeft.Disable();
-
-		moveRight.performed -= MoveRight;
-		moveRight.Disable();
+		move.Disable();
 
 		jump.performed -= Jump;
 		jump.Disable();
+	}
+
+	private void FixedUpdate()
+	{
+		Vector2 moveDirection = move.ReadValue<Vector2>();
+		rbody.velocity = new Vector2(moveDirection.x * moveSpeed, rbody.velocity.y);
 	}
 }
