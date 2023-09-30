@@ -19,7 +19,9 @@ public class PieceTemplate : ScriptableObject
     public int blockRightOfCenter; // Blocks from center
 	public Sprite blockSprite;
 
-    public List<Block> SpawnTemplate(Block blockTemplate, Vector2Int startingSpawnPosition, Transform parent, bool constrain = true)
+    public Vector2Int previewPieceOffset;
+
+    public List<Block> SpawnTemplate(Block blockTemplate, Vector2Int startingSpawnPosition, Transform parent, bool constrain = true, int sortOrder=0)
     {
         if (constrain)
         {
@@ -46,7 +48,7 @@ public class PieceTemplate : ScriptableObject
                 Block block = Instantiate(blockTemplate, parent);
                 block.transform.localPosition = worldSpawnPosition;
                 block.localPosition = localSpawnOffset + startingSpawnPosition;
-				block.AssignSprite(blockSprite);
+				block.AssignSprite(blockSprite, sortOrder);
                 blocks.Add(block);
             }
         }

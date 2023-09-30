@@ -13,9 +13,10 @@ public class Block : MonoBehaviour
         name = UnityEngine.Random.Range(0, 100).ToString();
     }
 
-	public void AssignSprite(Sprite newSprite)
+	public void AssignSprite(Sprite newSprite, int sortOrder)
 	{
 		GetComponent<SpriteRenderer>().sprite = newSprite;
+        GetComponent<SpriteRenderer>().sortingOrder = sortOrder;
 	}
 
     public Vector2Int DetermineNewPosition()
