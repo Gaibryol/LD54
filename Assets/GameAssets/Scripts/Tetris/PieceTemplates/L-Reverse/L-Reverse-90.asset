@@ -41,3 +41,4 @@ MonoBehaviour:
   blocksLeftOfCenter: 0
   blockRightOfCenter: 1
   blockSprite: {fileID: 21300000, guid: 1de21d0db99e9bf46b1d4e536c62688d, type: 3}
+  previewPieceOffset: {x: 0.4995, y: -0.333}

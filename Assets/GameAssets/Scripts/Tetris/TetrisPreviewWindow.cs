@@ -30,7 +30,11 @@ public class TetrisPreviewWindow : MonoBehaviour
     public void UpdatePreviewWindow(PieceTemplate pieceTemplate)
     {
         DestoryOldPreview();
-        blocks = pieceTemplate.SpawnTemplate(blockTemplate, WindowLocation + pieceTemplate.previewPieceOffset, transform, false);
+        blocks = pieceTemplate.SpawnTemplate(blockTemplate, WindowLocation, transform, false);
+        foreach (Block block in blocks)
+        {
+            block.transform.localPosition += (Vector3)pieceTemplate.previewPieceOffset;
+        }
     }
 
     private void DestoryOldPreview()
