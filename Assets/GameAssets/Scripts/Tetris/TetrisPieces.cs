@@ -17,6 +17,7 @@ public class TetrisPieces
     public PieceTemplate[] GetRandomTemplateList()
     {
         int index = UnityEngine.Random.Range(0, 7);
+        index = 5;
         switch (index)
         {
             case 0:
