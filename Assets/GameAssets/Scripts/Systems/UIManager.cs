@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		if (gameManager == null) return;
 		scoreText.text = ((int)gameManager.Score).ToString();
 	}
 

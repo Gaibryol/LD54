@@ -19,8 +19,7 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		eventBroker.Publish(this, new GameStateEvents.StartGame(this));
-		isPlaying = true;
+		
 	}
 
 	private void Update()
@@ -31,6 +30,12 @@ public class GameManager : MonoBehaviour
 			Score += Time.deltaTime;
 		}
 	}
+
+	public void StartGame()
+	{
+        eventBroker.Publish(this, new GameStateEvents.StartGame(this));
+        isPlaying = true;
+    }
 
 	private void HandleHighscore()
 	{

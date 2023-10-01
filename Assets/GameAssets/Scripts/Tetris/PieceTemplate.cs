@@ -19,7 +19,7 @@ public class PieceTemplate : ScriptableObject
     public int blockRightOfCenter; // Blocks from center
 	public Sprite blockSprite;
 
-    public Vector2Int previewPieceOffset;
+    public Vector2 previewPieceOffset;
 
     public List<Block> SpawnTemplate(Block blockTemplate, Vector2Int startingSpawnPosition, Transform parent, bool constrain = true, int sortOrder=0)
     {

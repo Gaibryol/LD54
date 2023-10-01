@@ -31,6 +31,7 @@ public class Tetris : MonoBehaviour
     void Start()
     {
         GetNextPiece();
+        UpdateGuideWindow();
     }
 
     private void OnEnable()
@@ -73,7 +74,8 @@ public class Tetris : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
+        if (!playing) return;
+        ClearLines();
     }
 
     #region Preview
@@ -251,7 +253,6 @@ public class Tetris : MonoBehaviour
             } else
             {
                 MovePiece();
-                ClearLines();
             }
             
             yield return new WaitForSeconds(TetrisConstants.TICK_RATE);
