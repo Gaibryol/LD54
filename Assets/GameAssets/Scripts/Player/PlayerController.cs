@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
 	private Rigidbody2D rbody;
-	private BoxCollider2D coll;
+	private CapsuleCollider2D coll;
 	private Animator anim;
 
 	private PlayerControls playerControls;
@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
 	private bool canPressRightButton;
 
 	private bool grounded;
+	private bool aboutToLand;
 
 	private readonly EventBrokerComponent eventBroker = new EventBrokerComponent();
 
@@ -29,7 +30,7 @@ public class PlayerController : MonoBehaviour
 	private void Awake()
 	{
 		rbody = GetComponent<Rigidbody2D>();
-		coll = GetComponent<BoxCollider2D>();
+		coll = GetComponent<CapsuleCollider2D>();
 		anim = GetComponent<Animator>();
 		playerControls = new PlayerControls();
 
@@ -44,6 +45,7 @@ public class PlayerController : MonoBehaviour
 		canPressRightButton = true;
 
 		grounded = false;
+		aboutToLand = true;
 
 		transform.position = spawnPos;
 	}
@@ -52,7 +54,6 @@ public class PlayerController : MonoBehaviour
 	{
 		if (grounded)
 		{
-			grounded = false;
 			anim.SetTrigger(Constants.Player.JumpAnimTrigger);
 			rbody.AddForce(new Vector2(0, jumpStrength), ForceMode2D.Impulse);
 			return;
@@ -114,51 +115,43 @@ public class PlayerController : MonoBehaviour
 		rbody.velocity = new Vector2(moveDirection.x * moveSpeed, rbody.velocity.y);
 		transform.localScale = new Vector2(rbody.velocity.x > 0 ? -1 : 1, 1);
 		anim.SetBool(Constants.Player.MovingAnimBool, (moveDirection.x != 0 && grounded));
+
+		// Check for hits above and below
+		RaycastHit2D rayUpA = Physics2D.Raycast(new Vector2(transform.position.x - Constants.Player.RayXOffsetA, transform.position.y), Vector2.up, Constants.Player.UpRayDistance, ~LayerMask.GetMask(Constants.Player.Tag));
+		RaycastHit2D rayUpB = Physics2D.Raycast(new Vector2(transform.position.x + Constants.Player.RayXOffsetB, transform.position.y), Vector2.up, Constants.Player.UpRayDistance, ~LayerMask.GetMask(Constants.Player.Tag));
+		RaycastHit2D rayDownA = Physics2D.Raycast(new Vector2(transform.position.x - Constants.Player.RayXOffsetA, transform.position.y), Vector2.down, Constants.Player.DownRayDistance, ~LayerMask.GetMask(Constants.Player.Tag));
+		RaycastHit2D rayDownB = Physics2D.Raycast(new Vector2(transform.position.x + Constants.Player.RayXOffsetB, transform.position.y), Vector2.down, Constants.Player.DownRayDistance, ~LayerMask.GetMask(Constants.Player.Tag));
+
+		//Debug.DrawLine(new Vector2(transform.position.x - Constants.Player.RayXOffsetA, transform.position.y), new Vector2(transform.position.x - Constants.Player.RayXOffsetA, transform.position.y + Constants.Player.UpRayDistance), Color.red, Mathf.Infinity);
+		//Debug.DrawLine(new Vector2(transform.position.x + Constants.Player.RayXOffsetB, transform.position.y), new Vector2(transform.position.x + Constants.Player.RayXOffsetB, transform.position.y + Constants.Player.UpRayDistance), Color.red, Mathf.Infinity);
+
+		//Debug.DrawLine(new Vector2(transform.position.x - Constants.Player.RayXOffsetA, transform.position.y), new Vector2(transform.position.x - Constants.Player.RayXOffsetA, transform.position.y - Constants.Player.DownRayDistance), Color.cyan, Mathf.Infinity);
+		//Debug.DrawLine(new Vector2(transform.position.x + Constants.Player.RayXOffsetB, transform.position.y), new Vector2(transform.position.x + Constants.Player.RayXOffsetB, transform.position.y - Constants.Player.DownRayDistance), Color.cyan, Mathf.Infinity);
+
+		// Grounded logic
+		grounded = rayDownA.collider?.tag == Constants.GroundTag || rayDownB.collider?.tag == Constants.GroundTag;
+		anim.SetBool(Constants.Player.GroundedAnimBool, grounded);
+
+		if (!grounded)
+		{
+			aboutToLand = true;
+		}
+
+		if (aboutToLand && grounded)
+		{
+			aboutToLand = false;
+			anim.SetTrigger(Constants.Player.LandAnimTrigger);
+		}
+
+		if ((rayUpA.collider?.tag == Constants.GroundTag || rayUpB.collider?.tag == Constants.GroundTag) && grounded)
+		{
+			// Player collided with the bottom of an object while grounded
+			eventBroker.Publish(this, new GameStateEvents.EndGame());
+		}
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		RaycastHit2D rayUpA = Physics2D.Raycast(new Vector2(transform.position.x - (coll.bounds.size.x / 2f), transform.position.y), Vector2.up, 0.3f, ~LayerMask.GetMask(Constants.Player.Tag));
-		RaycastHit2D rayUpB = Physics2D.Raycast(new Vector2(transform.position.x + (coll.bounds.size.x / 2f), transform.position.y), Vector2.up, 0.3f, ~LayerMask.GetMask(Constants.Player.Tag));
-		RaycastHit2D rayDownA = Physics2D.Raycast(new Vector2(transform.position.x - (coll.bounds.size.x / 2f), transform.position.y), Vector2.down, 0.3f, ~LayerMask.GetMask(Constants.Player.Tag));
-		RaycastHit2D rayDownB = Physics2D.Raycast(new Vector2(transform.position.x + (coll.bounds.size.x / 2f), transform.position.y), Vector2.down, 0.3f, ~LayerMask.GetMask(Constants.Player.Tag));
-
-		if (rayUpA.collider != null)
-		{
-			if (rayUpA.collider.tag == Constants.GroundTag)
-			{
-				// Player collided with the bottom of an object while grounded
-				eventBroker.Publish(this, new GameStateEvents.EndGame());
-			}
-		}
-		else if (rayUpB.collider != null)
-		{
-			if (rayUpB.collider.tag == Constants.GroundTag)
-			{
-				// Player collided with the bottom of an object while grounded
-				eventBroker.Publish(this, new GameStateEvents.EndGame());
-			}
-		}
-
-		if (rayDownA.collider != null)
-		{
-			if (rayDownA.collider.tag == Constants.GroundTag)
-			{
-				// Player collided with the top of an object
-				anim.SetTrigger(Constants.Player.LandAnimTrigger);
-				grounded = true;
-			}
-		}
-		else if (rayDownB.collider != null)
-		{
-			if (rayDownB.collider.tag == Constants.GroundTag)
-			{
-				// Player collided with the top of an object
-				anim.SetTrigger(Constants.Player.LandAnimTrigger);
-				grounded = true;
-			}
-		}
-
 		if (collision.transform.tag == Constants.LeftButtonTag)
 		{
 			// Rotate block counter clockwise
@@ -179,21 +172,5 @@ public class PlayerController : MonoBehaviour
                 eventBroker.Publish(this, new TetrisEvents.RotatePreviewBlock(true));
             }
         }
-	}
-
-	private void OnCollisionStay2D(Collision2D collision)
-	{
-		if (collision.transform.tag == Constants.GroundTag)
-		{
-			grounded = true;
-		}
-	}
-
-	private void OnCollisionExit2D(Collision2D collision)
-	{
-		if (collision.transform.tag == Constants.GroundTag && grounded)
-		{
-			grounded = false;
-		}
 	}
 }
