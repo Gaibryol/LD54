@@ -38,6 +38,7 @@ public class Tetris : MonoBehaviour
     {
         eventBrokerComponent.Subscribe<TetrisEvents.RotatePreviewBlock>(RotatePreviewBlockHandler);
         eventBrokerComponent.Subscribe<GameStateEvents.StartGame>(StartGameHandler);
+        eventBrokerComponent.Subscribe<GameStateEvents.EndGame>(EndGameHandler);
         eventBrokerComponent.Subscribe<GameStateEvents.RestartGame>(RestartGameHandler);
     }
 
@@ -45,7 +46,14 @@ public class Tetris : MonoBehaviour
     {
         eventBrokerComponent.Unsubscribe<TetrisEvents.RotatePreviewBlock>(RotatePreviewBlockHandler);
         eventBrokerComponent.Unsubscribe<GameStateEvents.StartGame>(StartGameHandler);
+        eventBrokerComponent.Unsubscribe<GameStateEvents.EndGame>(EndGameHandler);
         eventBrokerComponent.Unsubscribe<GameStateEvents.RestartGame>(RestartGameHandler);
+    }
+
+    private void EndGameHandler(BrokerEvent<GameStateEvents.EndGame> @event)
+    {
+        playing = false;
+        StopAllCoroutines();
     }
 
     private void RestartGameHandler(BrokerEvent<GameStateEvents.RestartGame> @event)
