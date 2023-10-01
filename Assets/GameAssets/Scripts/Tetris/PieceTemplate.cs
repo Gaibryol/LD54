@@ -22,7 +22,7 @@ public class PieceTemplate : ScriptableObject
 
     public Vector2 previewPieceOffset;
 
-    public List<Block> SpawnTemplate(Block blockTemplate, Vector2Int startingSpawnPosition, Transform parent, bool constrain = true, int sortOrder=0)
+    public List<Block> SpawnTemplate(Block blockTemplate, Vector2Int startingSpawnPosition, Transform parent, bool constrain = true, int sortOrder=1)
     {
         if (constrain)
         {
@@ -49,7 +49,7 @@ public class PieceTemplate : ScriptableObject
                 Block block = Instantiate(blockTemplate, parent);
                 block.transform.localPosition = worldSpawnPosition;
                 block.localPosition = localSpawnOffset + startingSpawnPosition;
-				block.AssignSprite(glowBlockSprite, sortOrder);
+				block.AssignSprite(blockSprite, sortOrder);
                 blocks.Add(block);
             }
         }

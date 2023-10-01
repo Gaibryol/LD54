@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEditor.UIElements;
 
 public class UIManager : MonoBehaviour
 {
@@ -32,6 +33,8 @@ public class UIManager : MonoBehaviour
 
 	[SerializeField] private Button yesRestartButton;
 	[SerializeField] private Button noRestartButton;
+
+	[SerializeField, Header("Countdown")] private TMP_Text countDownText;
 
 	[SerializeField, Header("End Screen")] private GameObject endScreen;
 	[SerializeField] private Sprite gameOverSprite;
@@ -62,6 +65,7 @@ public class UIManager : MonoBehaviour
 
 	private void StartGameHandler(BrokerEvent<GameStateEvents.StartGame> inEvent)
 	{
+		countDownText.enabled = false;
 		gameManager = inEvent.Payload.GameManager;
 		isPlaying = true;
 	}
@@ -158,12 +162,20 @@ public class UIManager : MonoBehaviour
 		eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Button));
 	}
 
-	private void OnEnable()
+    private void UpdateCountDownUIHandler(BrokerEvent<UIEvents.UpdateCountDownUI> inEvent)
+    {
+		countDownText.enabled = true;
+		countDownText.GetComponent<Animator>().Play("Countdown");
+        countDownText.text = inEvent.Payload.CountDown.ToString();
+    }
+
+    private void OnEnable()
 	{
 		eventBroker.Subscribe<GameStateEvents.StartGame>(StartGameHandler);
 		eventBroker.Subscribe<GameStateEvents.EndGame>(EndGameHandler);
 		eventBroker.Subscribe<GameStateEvents.SecretEnding>(SecretEndingHandler);
 		eventBroker.Subscribe<UIEvents.UpdateEndUI>(UpdateEndUIHandler);
+		eventBroker.Subscribe<UIEvents.UpdateCountDownUI>(UpdateCountDownUIHandler);
 
 		infoButton.onClick.AddListener(ToggleInfo);
 		volumeButton.onClick.AddListener(ToggleVolume);
@@ -180,8 +192,9 @@ public class UIManager : MonoBehaviour
 		eventBroker.Unsubscribe<GameStateEvents.EndGame>(EndGameHandler);
 		eventBroker.Unsubscribe<GameStateEvents.SecretEnding>(SecretEndingHandler);
 		eventBroker.Unsubscribe<UIEvents.UpdateEndUI>(UpdateEndUIHandler);
+        eventBroker.Unsubscribe<UIEvents.UpdateCountDownUI>(UpdateCountDownUIHandler);
 
-		infoButton.onClick.RemoveListener(ToggleInfo);
+        infoButton.onClick.RemoveListener(ToggleInfo);
 		volumeButton.onClick.RemoveListener(ToggleVolume);
 		promptRestartButton.onClick.RemoveListener(PromptRestart);
 		yesRestartButton.onClick.RemoveListener(RestartGame);

@@ -33,9 +33,21 @@ public class GameManager : MonoBehaviour
 
 	public void StartGame()
 	{
+		StartCoroutine(CountDown());
+    }
+
+	private IEnumerator CountDown()
+	{
+		int countDown = 3;
+        while (countDown > 0)
+        {
+			eventBroker.Publish(this, new UIEvents.UpdateCountDownUI(countDown));
+			countDown--;
+			yield return new WaitForSeconds(1);
+        }
         eventBroker.Publish(this, new GameStateEvents.StartGame(this));
         isPlaying = true;
-    }
+	}
 
 	private void HandleHighscore()
 	{
