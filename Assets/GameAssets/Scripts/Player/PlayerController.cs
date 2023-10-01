@@ -91,6 +91,7 @@ public class PlayerController : MonoBehaviour
 		eventBroker.Subscribe<GameStateEvents.StartGame>(StartGameHandler);
 		eventBroker.Subscribe<GameStateEvents.EndGame>(EndGameHandler);
 		eventBroker.Subscribe<GameStateEvents.RestartGame>(RestartGameHandler);
+		eventBroker.Subscribe<GameStateEvents.SecretEnding>(SecretEndingHandler);
 	}
 
 	private void OnDisable()
@@ -104,6 +105,7 @@ public class PlayerController : MonoBehaviour
 		eventBroker.Unsubscribe<GameStateEvents.StartGame>(StartGameHandler);
 		eventBroker.Unsubscribe<GameStateEvents.EndGame>(EndGameHandler);
 		eventBroker.Unsubscribe<GameStateEvents.RestartGame>(RestartGameHandler);
+		eventBroker.Unsubscribe<GameStateEvents.SecretEnding>(SecretEndingHandler);
 	}
 
 	private void StartGameHandler(BrokerEvent<GameStateEvents.StartGame> inEvent)
@@ -117,6 +119,12 @@ public class PlayerController : MonoBehaviour
 	}
 
 	private void EndGameHandler(BrokerEvent<GameStateEvents.EndGame> inEvent)
+	{
+		playing = false;
+	}
+
+
+	private void SecretEndingHandler(BrokerEvent<GameStateEvents.SecretEnding> obj)
 	{
 		playing = false;
 	}

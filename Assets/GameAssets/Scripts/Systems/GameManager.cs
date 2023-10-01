@@ -42,22 +42,19 @@ public class GameManager : MonoBehaviour
 		// Check
 		int hs = PlayerPrefs.GetInt(Constants.Player.Highscore, 0);
 
-		if (hs != 0)
+		if (Score > hs)
 		{
-			if (Score > hs)
-			{
-				// New highscore, display somewhere
-				eventBroker.Publish(this, new UIEvents.UpdateEndUI(true));
+			// New highscore, display somewhere
+			eventBroker.Publish(this, new UIEvents.UpdateEndUI(true));
 
-				// Save new highscore
-				PlayerPrefs.SetInt(Constants.Player.Highscore, (int)Score);
-				PlayerPrefs.Save();
-			}
-			else
-			{
-				// Game over
-				eventBroker.Publish(this, new UIEvents.UpdateEndUI(false));
-			}
+			// Save new highscore
+			PlayerPrefs.SetInt(Constants.Player.Highscore, (int)Score);
+			PlayerPrefs.Save();
+		}
+		else
+		{
+			// Game over
+			eventBroker.Publish(this, new UIEvents.UpdateEndUI(false));
 		}
 	}
 
@@ -99,7 +96,9 @@ public class GameManager : MonoBehaviour
 
 	private void SecretEndingHandler(BrokerEvent<GameStateEvents.SecretEnding> inEvent)
 	{
-		throw new NotImplementedException();
+		isPlaying = false;
+		Score += Constants.Player.SecretEndingPoints;
+		HandleHighscore();
 	}
 
 

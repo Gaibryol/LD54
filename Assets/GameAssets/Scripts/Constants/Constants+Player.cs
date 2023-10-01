@@ -22,5 +22,8 @@ public partial class Constants
 		public const int LinesCleared2 = 250;
 		public const int LinesCleared3 = 500;
 		public const int LinesCleared4 = 1000;
+		public const int SecretEndingPoints = 2500;
+
+		public const float SecretEndingTiming = 3f;
 	}
 }

@@ -36,6 +36,7 @@ public class UIManager : MonoBehaviour
 	[SerializeField, Header("End Screen")] private GameObject endScreen;
 	[SerializeField] private Sprite gameOverSprite;
 	[SerializeField] private Sprite highScoreSprite;
+	[SerializeField] private Sprite secretEndingSprite;
 	[SerializeField] private TMP_Text finalScoreText;
 	[SerializeField] private Button endRestartButton;
 
@@ -92,14 +93,17 @@ public class UIManager : MonoBehaviour
 	{
 		splashScreen.SetActive(true);
 
-		yield return new WaitForSeconds(3f);
+		yield return new WaitForSeconds(Constants.Player.SecretEndingTiming);
 
 		splashScreen.GetComponent<Image>().sprite = splash2;
 
-		yield return new WaitForSeconds(3f);
+		yield return new WaitForSeconds(Constants.Player.SecretEndingTiming);
 
 		splashScreen.SetActive(false);
 		splashScreen.GetComponent<Image>().sprite = splash1;
+
+		endScreen.SetActive(true);
+		endScreen.GetComponent<Image>().sprite = secretEndingSprite;
 	}
 
 	private void ToggleInfo()
