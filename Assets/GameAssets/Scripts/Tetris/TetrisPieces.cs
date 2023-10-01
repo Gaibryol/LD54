@@ -16,13 +16,13 @@ public class TetrisPieces
 
     public PieceTemplate[] GetRandomTemplateList()
     {
-        int index = UnityEngine.Random.Range(0, 7);
+        int index = UnityEngine.Random.Range(0, 2);
         switch (index)
         {
             case 0:
                 return IPieces;
             case 1:
-                return LReversePieces;
+                return SquarePieces;
             case 2:
                 return LPieces;
             case 3:
@@ -32,7 +32,7 @@ public class TetrisPieces
             case 5:
                 return TPieces;
             case 6:
-                return SquarePieces;
+                return LReversePieces;
             default:
                 return null;
         }

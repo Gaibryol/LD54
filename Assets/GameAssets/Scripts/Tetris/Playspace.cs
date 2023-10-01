@@ -44,11 +44,13 @@ public class Playspace
 
     public List<int> ClearedLines()
     {
+        // Return clearend lines bottom up
         List<int> lines = new List<int>();
-        for (int row = 0; row < TetrisConstants.ROWS; row++)
+        for (int row = TetrisConstants.ROWS - 1; row >= 0; row--)
         {
             if (board[row].cols.All(x => x != null))
             {
+                Debug.Log("Clearing Row " + row);
                 lines.Add(row);
             }
         }
