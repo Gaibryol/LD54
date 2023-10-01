@@ -224,7 +224,7 @@ public class Tetris : MonoBehaviour
 
     private void ShiftBlocks(List<int> rows)
     {
-        foreach (int clearedRow in rows)
+        foreach (int clearedRow in rows.OrderBy(row => row))
         {
             // shift everything "above" down
             for (int row = clearedRow - 1; row >= 0; row--)
