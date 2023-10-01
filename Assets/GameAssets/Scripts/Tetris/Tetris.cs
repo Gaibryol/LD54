@@ -190,7 +190,8 @@ public class Tetris : MonoBehaviour
                 playspace.SetBoard(block.GetCurrentPosition(), block);
             }
             activeBlocks.Clear();
-        }
+			eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.PieceLand));
+		}
     }
     #endregion
 
@@ -209,7 +210,9 @@ public class Tetris : MonoBehaviour
                 playspace.SetBoard(block.GetCurrentPosition(), null);
                 Destroy(block.gameObject);
             }
-        }
+
+			eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.RowClear));
+		}
 
         ShiftBlocks(rows.Min());
     }
@@ -254,7 +257,8 @@ public class Tetris : MonoBehaviour
                 if (!IsValidSpawn() || !BlockPassedThreshold())
                 {
 					eventBrokerComponent.Publish(this, new GameStateEvents.EndGame());
-                    break;
+					eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Death));
+					break;
                 }
                 GetNextPiece();
                 UpdateGuideWindow();

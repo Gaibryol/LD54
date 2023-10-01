@@ -11,6 +11,11 @@ public class AudioManager : MonoBehaviour
 	[SerializeField, Header("Music")] private AudioClip mainMenuTrack;
 
 	[SerializeField, Header("SFX")] private AudioClip buttonPress;
+	[SerializeField] private AudioClip death;
+	[SerializeField] private AudioClip pieceLand;
+	[SerializeField] private AudioClip rotateClockwise;
+	[SerializeField] private AudioClip rotateCounterclockwise;
+	[SerializeField] private AudioClip rowClear;
 
 	private float musicVolume;
 	private float sfxVolume;
@@ -26,9 +31,14 @@ public class AudioManager : MonoBehaviour
 	private void Awake()
 	{
 		// Set up music and sfx dictionaries
-		music.Add(Constants.Audio.Music.MainMenu, mainMenuTrack);
+		//music.Add(Constants.Audio.Music.MainMenu, mainMenuTrack);
 
 		sfx.Add(Constants.Audio.SFX.Button, buttonPress);
+		sfx.Add(Constants.Audio.SFX.Death, death);
+		sfx.Add(Constants.Audio.SFX.PieceLand, pieceLand);
+		sfx.Add(Constants.Audio.SFX.RotateClockwise, rotateClockwise);
+		sfx.Add(Constants.Audio.SFX.RotateCounterclockwise, rotateCounterclockwise);
+		sfx.Add(Constants.Audio.SFX.RowClear, rowClear);
 	}
 
 	private void OnEnable()
