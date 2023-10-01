@@ -18,4 +18,14 @@ public class PlayerEvents
 
 		public readonly int NumCleared;
 	}
+
+	public class AdjustGravity
+	{
+		public AdjustGravity(float amount)
+		{
+			Amount = amount;
+		}
+
+		public readonly float Amount;
+	}
 }

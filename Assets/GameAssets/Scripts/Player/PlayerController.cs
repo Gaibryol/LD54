@@ -88,6 +88,7 @@ public class PlayerController : MonoBehaviour
 		jump.Enable();
 
 		eventBroker.Subscribe<PlayerEvents.GetPlayerWorldLocation>(GetPlayerWorldLocationHandler);
+		eventBroker.Subscribe<PlayerEvents.AdjustGravity>(AdjustGravityHandler);
 		eventBroker.Subscribe<GameStateEvents.StartGame>(StartGameHandler);
 		eventBroker.Subscribe<GameStateEvents.EndGame>(EndGameHandler);
 		eventBroker.Subscribe<GameStateEvents.RestartGame>(RestartGameHandler);
@@ -102,6 +103,7 @@ public class PlayerController : MonoBehaviour
 		jump.Disable();
 
         eventBroker.Unsubscribe<PlayerEvents.GetPlayerWorldLocation>(GetPlayerWorldLocationHandler);
+		eventBroker.Unsubscribe<PlayerEvents.AdjustGravity>(AdjustGravityHandler);
 		eventBroker.Unsubscribe<GameStateEvents.StartGame>(StartGameHandler);
 		eventBroker.Unsubscribe<GameStateEvents.EndGame>(EndGameHandler);
 		eventBroker.Unsubscribe<GameStateEvents.RestartGame>(RestartGameHandler);
@@ -133,6 +135,11 @@ public class PlayerController : MonoBehaviour
     {
 		inEvent.Payload.WorldPosition = transform.position;
     }
+
+	private void AdjustGravityHandler(BrokerEvent<PlayerEvents.AdjustGravity> inEvent)
+	{
+		rbody.gravityScale = inEvent.Payload.Amount;
+	}
 
 	private void FixedUpdate()
 	{

@@ -24,6 +24,8 @@ public partial class Constants
 		public const int LinesCleared4 = 1000;
 		public const int SecretEndingPoints = 2500;
 
-		public const float SecretEndingTiming = 3f;
+		public const float SecretEndingTiming = 5f;
+
+		public const float GravityScale = 1.25f;
 	}
 }

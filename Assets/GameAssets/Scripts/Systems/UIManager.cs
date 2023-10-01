@@ -42,8 +42,7 @@ public class UIManager : MonoBehaviour
 
 
 	[SerializeField, Header("Secret Ending")] private GameObject splashScreen;
-	[SerializeField] private Sprite splash1;
-	[SerializeField] private Sprite splash2;
+	[SerializeField] private Sprite splash;
 
 	private bool volumeOn;
 	private bool gridOn;
@@ -91,18 +90,22 @@ public class UIManager : MonoBehaviour
 
 	private IEnumerator SecretEndingCoroutine()
 	{
+		isPlaying = false;
+
+		eventBroker.Publish(this, new PlayerEvents.AdjustGravity(0f));
+		Time.timeScale = 0.5f;
+
+		yield return new WaitForSeconds(0.5f);
+
+		Time.timeScale = 1f;
 		splashScreen.SetActive(true);
-
-		yield return new WaitForSeconds(Constants.Player.SecretEndingTiming);
-
-		splashScreen.GetComponent<Image>().sprite = splash2;
+		eventBroker.Publish(this, new PlayerEvents.AdjustGravity(Constants.Player.GravityScale));
 
 		yield return new WaitForSeconds(Constants.Player.SecretEndingTiming);
 
 		splashScreen.SetActive(false);
-		splashScreen.GetComponent<Image>().sprite = splash1;
-
 		endScreen.SetActive(true);
+		finalScoreText.text = scoreText.text;
 		endScreen.GetComponent<Image>().sprite = secretEndingSprite;
 	}
 
