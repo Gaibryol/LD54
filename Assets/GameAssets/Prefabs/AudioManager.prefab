@@ -44,7 +44,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -5329219392797522014, guid: aa999d444814ca845965ac09a4d03565, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.15
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -183,6 +183,7 @@ MonoBehaviour:
   rotateClockwise: {fileID: 8300000, guid: 7a7e2df0c15b2f542b9152c6df4c781d, type: 3}
   rotateCounterclockwise: {fileID: 8300000, guid: caeb9f4b79aef484e93bdb993b84b1e9, type: 3}
   rowClear: {fileID: 8300000, guid: bd99da40f40b8574c983847116f9897d, type: 3}
+  comboClear: {fileID: 8300000, guid: 45e2d65415c495447bdbd30851e3b5a9, type: 3}
 --- !u!1 &3004386593684315242
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,7 +228,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 2689270154858974756, guid: aa999d444814ca845965ac09a4d03565, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.15
   m_Pitch: 1
   Loop: 0
   Mute: 0

@@ -45,6 +45,15 @@ public class UIManager : MonoBehaviour
 
 	[SerializeField, Header("Secret Ending")] private GameObject splashScreen;
 
+	[SerializeField, Header("Achievements")] private GameObject combo20TimesAchievement;
+	[SerializeField] private GameObject earnBigComboAchievement;
+	[SerializeField] private GameObject earn1000PointsAchievement;
+	[SerializeField] private GameObject earn2000PointsAchievement;
+	[SerializeField] private GameObject earn3000PointsAchievement;
+	[SerializeField] private GameObject escapedAchievement;
+	[SerializeField] private GameObject jump100TimesAchievement;
+	[SerializeField] private GameObject rotate50TimesAchievement;
+
 	private bool volumeOn;
 	private bool gridOn;
 	private bool isPlaying;
@@ -55,10 +64,64 @@ public class UIManager : MonoBehaviour
 		gridOn = false;
 	}
 
+	private void Start()
+	{
+		// Set up achievements
+		eventBroker.Publish(this, new AchievementEvents.GetAchievements((achievements) =>
+		{
+			combo20TimesAchievement.SetActive(achievements[Constants.Achievements.Combo20Times]);
+			earnBigComboAchievement.SetActive(achievements[Constants.Achievements.EarnBigCombo]);
+			earn1000PointsAchievement.SetActive(achievements[Constants.Achievements.Earn1000Points]);
+			earn2000PointsAchievement.SetActive(achievements[Constants.Achievements.Earn2000Points]);
+			earn3000PointsAchievement.SetActive(achievements[Constants.Achievements.Earn3000Points]);
+			escapedAchievement.SetActive(achievements[Constants.Achievements.Escaped]);
+			jump100TimesAchievement.SetActive(achievements[Constants.Achievements.Jump100Times]);
+			rotate50TimesAchievement.SetActive(achievements[Constants.Achievements.Rotate50Times]);
+		}));
+	}
+
 	private void FixedUpdate()
 	{
 		if (gameManager == null || !isPlaying) return;
 		scoreText.text = ((int)gameManager.Score).ToString();
+	}
+
+	private void EarnAchievementHandler(BrokerEvent<AchievementEvents.EarnAchievement> inEvent)
+	{
+		switch (inEvent.Payload.Achievement)
+		{
+			case Constants.Achievements.Combo20Times:
+				combo20TimesAchievement.SetActive(true);
+				break;
+
+			case Constants.Achievements.EarnBigCombo:
+				earnBigComboAchievement.SetActive(true);
+				break;
+
+			case Constants.Achievements.Escaped:
+				escapedAchievement.SetActive(true);
+				break;
+
+			case Constants.Achievements.Jump100Times:
+				jump100TimesAchievement.SetActive(true);
+				break;
+
+			case Constants.Achievements.Earn1000Points:
+				earn1000PointsAchievement.SetActive(true);
+				break;
+
+			case Constants.Achievements.Earn2000Points:
+				earn2000PointsAchievement.SetActive(true);
+				break;
+
+			case Constants.Achievements.Earn3000Points:
+				earn3000PointsAchievement.SetActive(true);
+				break;
+
+			case Constants.Achievements.Rotate50Times:
+				rotate50TimesAchievement.SetActive(true);
+				break;
+		}
 	}
 
 	private void StartGameHandler(BrokerEvent<GameStateEvents.StartGame> inEvent)
@@ -82,11 +145,6 @@ public class UIManager : MonoBehaviour
 
 	private void SecretEndingHandler(BrokerEvent<GameStateEvents.SecretEnding> inEvent)
 	{
-		// Slow effect?
-		// Open splash screen 1
-		// splash screen 2
-		// Return to game view with congratulatory message
-
 		StartCoroutine(SecretEndingCoroutine());
 	}
 
@@ -174,6 +232,7 @@ public class UIManager : MonoBehaviour
 		eventBroker.Subscribe<GameStateEvents.SecretEnding>(SecretEndingHandler);
 		eventBroker.Subscribe<UIEvents.UpdateEndUI>(UpdateEndUIHandler);
 		eventBroker.Subscribe<UIEvents.UpdateCountDownUI>(UpdateCountDownUIHandler);
+		eventBroker.Subscribe<AchievementEvents.EarnAchievement>(EarnAchievementHandler);
 
 		infoButton.onClick.AddListener(ToggleInfo);
 		volumeButton.onClick.AddListener(ToggleVolume);
@@ -191,8 +250,9 @@ public class UIManager : MonoBehaviour
 		eventBroker.Unsubscribe<GameStateEvents.SecretEnding>(SecretEndingHandler);
 		eventBroker.Unsubscribe<UIEvents.UpdateEndUI>(UpdateEndUIHandler);
         eventBroker.Unsubscribe<UIEvents.UpdateCountDownUI>(UpdateCountDownUIHandler);
+		eventBroker.Unsubscribe<AchievementEvents.EarnAchievement>(EarnAchievementHandler);
 
-        infoButton.onClick.RemoveListener(ToggleInfo);
+		infoButton.onClick.RemoveListener(ToggleInfo);
 		volumeButton.onClick.RemoveListener(ToggleVolume);
 		promptRestartButton.onClick.RemoveListener(PromptRestart);
 		yesRestartButton.onClick.RemoveListener(RestartGame);
