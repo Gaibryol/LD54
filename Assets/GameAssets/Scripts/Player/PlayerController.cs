@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
 	private bool grounded;
 	private bool aboutToLand;
 
+	private bool playing;
+
 	private readonly EventBrokerComponent eventBroker = new EventBrokerComponent();
 
 	private Vector3 spawnPos;
@@ -48,6 +50,8 @@ public class PlayerController : MonoBehaviour
 		aboutToLand = true;
 
 		transform.position = spawnPos;
+
+		playing = false;
 	}
 
 	private void Jump(InputAction.CallbackContext context)
@@ -84,6 +88,8 @@ public class PlayerController : MonoBehaviour
 		jump.Enable();
 
 		eventBroker.Subscribe<PlayerEvents.GetPlayerWorldLocation>(GetPlayerWorldLocationHandler);
+		eventBroker.Subscribe<GameStateEvents.StartGame>(StartGameHandler);
+		eventBroker.Subscribe<GameStateEvents.EndGame>(EndGameHandler);
 		eventBroker.Subscribe<GameStateEvents.RestartGame>(RestartGameHandler);
 	}
 
@@ -95,12 +101,24 @@ public class PlayerController : MonoBehaviour
 		jump.Disable();
 
         eventBroker.Unsubscribe<PlayerEvents.GetPlayerWorldLocation>(GetPlayerWorldLocationHandler);
+		eventBroker.Unsubscribe<GameStateEvents.StartGame>(StartGameHandler);
+		eventBroker.Unsubscribe<GameStateEvents.EndGame>(EndGameHandler);
 		eventBroker.Unsubscribe<GameStateEvents.RestartGame>(RestartGameHandler);
+	}
+
+	private void StartGameHandler(BrokerEvent<GameStateEvents.StartGame> inEvent)
+	{
+		playing = true;
 	}
 
 	private void RestartGameHandler(BrokerEvent<GameStateEvents.RestartGame> inEvent)
 	{
 		Init();
+	}
+
+	private void EndGameHandler(BrokerEvent<GameStateEvents.EndGame> inEvent)
+	{
+		playing = false;
 	}
 
 	private void GetPlayerWorldLocationHandler(BrokerEvent<PlayerEvents.GetPlayerWorldLocation> inEvent)
@@ -146,7 +164,11 @@ public class PlayerController : MonoBehaviour
 		if ((rayUpA.collider?.tag == Constants.GroundTag || rayUpB.collider?.tag == Constants.GroundTag) && grounded)
 		{
 			// Player collided with the bottom of an object while grounded
-			eventBroker.Publish(this, new GameStateEvents.EndGame());
+			if (playing)
+			{
+				eventBroker.Publish(this, new GameStateEvents.EndGame());
+				eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Death));
+			}
 		}
 	}
 
@@ -160,6 +182,7 @@ public class PlayerController : MonoBehaviour
 				collision.transform.GetComponent<Animator>().SetTrigger(Constants.ButtonAnimTrigger);
 				StartCoroutine(StartLeftButtonCooldown());
 				eventBroker.Publish(this, new TetrisEvents.RotatePreviewBlock(false));
+				eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.RotateCounterclockwise));
 			}
 		}
 		else if (collision.transform.tag == Constants.RightButtonTag)
@@ -170,7 +193,8 @@ public class PlayerController : MonoBehaviour
 				collision.transform.GetComponent<Animator>().SetTrigger(Constants.ButtonAnimTrigger);
 				StartCoroutine(StartRightButtonCooldown());
                 eventBroker.Publish(this, new TetrisEvents.RotatePreviewBlock(true));
-            }
+				eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.RotateClockwise));
+			}
         }
 	}
 }

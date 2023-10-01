@@ -17,6 +17,11 @@ public partial class Constants
 		public struct SFX
 		{
 			public const string Button = "Button";
+			public const string Death = "Death";
+			public const string PieceLand = "PieceLand";
+			public const string RotateClockwise = "RotateClockwise";
+			public const string RotateCounterclockwise = "RotateCounterclockwise";
+			public const string RowClear = "RowClear";
 		}
 	}
 }
