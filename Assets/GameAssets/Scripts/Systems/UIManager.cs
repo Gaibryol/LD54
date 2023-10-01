@@ -98,6 +98,8 @@ public class UIManager : MonoBehaviour
 	{
 		eventBroker.Publish(this, new GameStateEvents.RestartGame());
 		endScreen.SetActive(false);
+		restartPanel.SetActive(false);
+		Time.timeScale = 1f;
 	}
 
 	private void CancelRestart()
