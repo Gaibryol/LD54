@@ -13,4 +13,14 @@ public class UIEvents
 
 		public readonly bool NewHighscore;
 	}
+
+	public class UpdateCountDownUI
+	{
+		public readonly int CountDown;
+
+		public UpdateCountDownUI(int countDown)
+		{
+			CountDown = countDown;
+		}
+	}
 }

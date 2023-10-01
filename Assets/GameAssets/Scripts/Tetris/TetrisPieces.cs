@@ -14,11 +14,24 @@ public class TetrisPieces
     public PieceTemplate[] TPieces;
     public PieceTemplate[] SquarePieces;
 
+    private List<int> spawningBag;
+
+    public TetrisPieces()
+    {
+        FillSpawningBag();
+    }
+
     public PieceTemplate[] GetRandomTemplateList()
     {
-		int index = UnityEngine.Random.Range(0, 7);
-		//index = 1;
-        switch (index)
+        if (spawningBag.Count == 0)
+        {
+            FillSpawningBag();
+        }
+
+		int index = UnityEngine.Random.Range(0, spawningBag.Count);
+        int pieceType = spawningBag[index];
+        spawningBag.RemoveAt(index);
+        switch (pieceType)
         {
             case 0:
                 return IPieces;
@@ -37,5 +50,10 @@ public class TetrisPieces
             default:
                 return null;
         }
+    }
+
+    private void FillSpawningBag()
+    {
+        spawningBag = new List<int>() { 0, 1, 2, 3, 4, 5, 6 };
     }
 }

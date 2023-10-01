@@ -131,6 +131,10 @@ public class Tetris : MonoBehaviour
 
         //List<Block> newBlocks = currentTemplate.SpawnTemplate(blockTemplate, new Vector2Int(0, counter%TetrisConstants.COLS), transform);
         List<Block> newBlocks = currentTemplate.SpawnTemplate(blockTemplate, MapPlayerLocation(), transform);
+        foreach (Block block in newBlocks)
+        {
+            block.AssignSprite(currentTemplate.glowBlockSprite, 1);
+        }
         counter += 1;
         activeBlocks.AddRange(newBlocks);
         allBlocks.AddRange(newBlocks);
@@ -188,7 +192,7 @@ public class Tetris : MonoBehaviour
             foreach (Block block in activeBlocks)
             {
                 playspace.SetBoard(block.GetCurrentPosition(), block);
-                block.AssignSprite(currentTemplate.blockSprite, 0);
+                block.AssignSprite(currentTemplate.blockSprite, 1);
                 block.isMoving = false;
             }
             updatingBoard = false;
