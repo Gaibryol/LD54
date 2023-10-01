@@ -196,6 +196,7 @@ public class Tetris : MonoBehaviour
             foreach (Block block in activeBlocks)
             {
                 playspace.SetBoard(block.GetCurrentPosition(), block);
+                block.AssignSprite(currentTemplate.blockSprite, 0);
                 block.isMoving = false;
             }
             updatingBoard = false;

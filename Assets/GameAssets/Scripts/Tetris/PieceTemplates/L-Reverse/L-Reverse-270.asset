@@ -41,4 +41,5 @@ MonoBehaviour:
   blocksLeftOfCenter: 0
   blockRightOfCenter: 1
   blockSprite: {fileID: 21300000, guid: 783c8d704c0c3e44389472d4e6491c89, type: 3}
+  glowBlockSprite: {fileID: 21300000, guid: 51f575d097e1d834abe1524c1d42aba7, type: 3}
   previewPieceOffset: {x: 0.4995, y: -0.333}
