@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
-using UnityEditor.UIElements;
 
 public class UIManager : MonoBehaviour
 {
