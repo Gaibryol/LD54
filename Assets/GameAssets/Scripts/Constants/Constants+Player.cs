@@ -13,8 +13,8 @@ public partial class Constants
 		public const float AllowedCollisionMargin = 0.025f;
 		public const float JumpCooldown = 0.154f;
 
-		public const float RayXOffsetA = 0.15f;
-		public const float RayXOffsetB = 0.10f;
+		public const float RayXOffsetA = 0.12f;
+		public const float RayXOffsetB = 0.12f;
 		public const float UpRayDistance = 0.28f;
 		public const float DownRayDistance = 0.25f;
 	}

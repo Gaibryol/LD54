@@ -3175,6 +3175,14 @@ PrefabInstance:
       propertyPath: m_Offset.x
       value: -0.028359853
       objectReference: {fileID: 0}
+    - target: {fileID: 3171945208093648720, guid: e38a8ddcb2d9e564b87f338f013dba7a, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3171945208093648720, guid: e38a8ddcb2d9e564b87f338f013dba7a, type: 3}
+      propertyPath: m_SpriteSortPoint
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3171945208093648721, guid: e38a8ddcb2d9e564b87f338f013dba7a, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -3219,6 +3227,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3171945208093648722, guid: e38a8ddcb2d9e564b87f338f013dba7a, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3171945208093648726, guid: e38a8ddcb2d9e564b87f338f013dba7a, type: 3}
       propertyPath: m_Name
       value: Player
@@ -3226,6 +3238,10 @@ PrefabInstance:
     - target: {fileID: 3171945208093648726, guid: e38a8ddcb2d9e564b87f338f013dba7a, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7179570153376911990, guid: e38a8ddcb2d9e564b87f338f013dba7a, type: 3}
+      propertyPath: m_FlipX
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e38a8ddcb2d9e564b87f338f013dba7a, type: 3}
