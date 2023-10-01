@@ -47,10 +47,16 @@ public class GameManager : MonoBehaviour
 			if (Score > hs)
 			{
 				// New highscore, display somewhere
+				eventBroker.Publish(this, new UIEvents.UpdateEndUI(true));
 
 				// Save new highscore
 				PlayerPrefs.SetInt(Constants.Player.Highscore, (int)Score);
 				PlayerPrefs.Save();
+			}
+			else
+			{
+				// Game over
+				eventBroker.Publish(this, new UIEvents.UpdateEndUI(false));
 			}
 		}
 	}
