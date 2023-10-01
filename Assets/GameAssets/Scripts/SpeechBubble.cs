@@ -21,7 +21,18 @@ public class SpeechBubble : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
-            float nextTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.5f ? 0.5f : 1f;
+            float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            float nextTime;
+            if (normalizedTime < 1f/3f)
+            {
+                nextTime = 1f / 3f;
+            } else if (normalizedTime < 2f/3f)
+            {
+                nextTime = 2f / 3f;
+            } else
+            {
+                nextTime = 1f;
+            }
             animator.Play("Speech", 0, nextTime);
         }
     }

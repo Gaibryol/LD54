@@ -12,6 +12,7 @@ public class Tetris : MonoBehaviour
 
     [SerializeField] private Block blockTemplate;
     [SerializeField] private GameObject LineClearTemplate;
+    [SerializeField] private GameObject comboTemplate;
 
     #region Current 
     private List<Block> activeBlocks;
@@ -216,6 +217,18 @@ public class Tetris : MonoBehaviour
         List<int> rows = playspace.ClearedLines();
         if (rows.Count == 0) return;
 
+        if (rows.Count >= 2)
+        {
+            int topRow = rows.Min();
+            Vector3 localPosition = new Vector3(-8 * TetrisConstants.BLOCK_SIZE / 2, -topRow * TetrisConstants.BLOCK_SIZE);
+            GameObject combo = Instantiate(comboTemplate, transform);
+            combo.transform.localPosition = localPosition;
+            eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.ComboClear));
+        } else
+        {
+			eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.RowClear));
+        }
+
         foreach (int row in rows)
         {
             GameObject lineClear = Instantiate(LineClearTemplate, transform);
@@ -226,8 +239,6 @@ public class Tetris : MonoBehaviour
                 playspace.SetBoard(block.GetCurrentPosition(), null);
                 Destroy(block.gameObject);
             }
-
-			eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.RowClear));
 		}
 
 		eventBrokerComponent.Publish(this, new PlayerEvents.ClearLines(rows.Count));
@@ -274,11 +285,13 @@ public class Tetris : MonoBehaviour
 
     private IEnumerator TickPiece()
     {
+        float tickRate = TetrisConstants.TICK_RATE;
         while (playing)
         {
             if (activeBlocks.Count == 0)
             {
                 SpawnPiece();
+                tickRate = Mathf.Clamp(tickRate - TetrisConstants.TICK_RATE_DECREASE_AMOUNT, TetrisConstants.MIN_TICK_RATE, TetrisConstants.TICK_RATE);
                 if (!IsValidSpawn() || !BlockPassedThreshold())
                 {
 					eventBrokerComponent.Publish(this, new GameStateEvents.EndGame());
@@ -292,7 +305,7 @@ public class Tetris : MonoBehaviour
                 MovePiece();
             }
             
-            yield return new WaitForSeconds(TetrisConstants.TICK_RATE);
+            yield return new WaitForSeconds(tickRate);
         }
     }
 

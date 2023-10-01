@@ -33,7 +33,7 @@ public class TetrisPreviewWindow : MonoBehaviour
         blocks = pieceTemplate.SpawnTemplate(blockTemplate, WindowLocation, transform, false);
         foreach (Block block in blocks)
         {
-            block.transform.localPosition += (Vector3)pieceTemplate.previewPieceOffset;
+            block.transform.localPosition += (Vector3)pieceTemplate.previewPieceOffset * TetrisConstants.BLOCK_SIZE;
         }
     }
 
