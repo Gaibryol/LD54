@@ -9,7 +9,7 @@ public static class TetrisConstants
     public const float BLOCK_SIZE = 0.333f;
     public const float TICK_RATE = .2f;
     public const float MIN_TICK_RATE = .1f;
-    public const float TICK_RATE_DECREASE_AMOUNT = 0.005f;
+    public const float TICK_RATE_DECREASE_AMOUNT = 0.001f;
 
     public const int ROWS = 24;
     public const int COLS = 10;
