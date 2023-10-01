@@ -4,7 +4,7 @@ public partial class Constants
 	public class Audio
 	{
 		public const float MusicFadeSpeed = 2.5f;
-		public const float DefaultAudioLevel = 0.25f;
+		public const float DefaultAudioLevel = 0.15f;
 
 		public const string MusicVolumePP = "MusicVolume";
 		public const string SFXVolumePP = "SFXVolume";

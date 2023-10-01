@@ -66,6 +66,7 @@ public class AchievementSystem : MonoBehaviour
 		}
 
 		PlayerPrefs.SetInt(inEvent.Payload.Achievement, boolToInt(true));
+		PlayerPrefs.Save();
 	}
 
 
