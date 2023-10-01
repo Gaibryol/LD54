@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
 		{
 			anim.SetTrigger(Constants.Player.JumpAnimTrigger);
 			rbody.AddForce(new Vector2(0, jumpStrength), ForceMode2D.Impulse);
+			eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Jump));
 
 			numJumped += 1;
 			if (numJumped >= Constants.Achievements.numTimesToJump)

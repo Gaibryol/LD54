@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
 	private GameManager gameManager;
 
 	[SerializeField, Header("Game Screen")] private TMP_Text scoreText;
-
+	[SerializeField] private TMP_Text highscoreText;
 	[SerializeField] private GameObject infoPanel;
 	[SerializeField] private Button infoButton;
 	[SerializeField] private Sprite infoOnSprite;
@@ -78,6 +78,8 @@ public class UIManager : MonoBehaviour
 			jump100TimesAchievement.SetActive(achievements[Constants.Achievements.Jump100Times]);
 			rotate50TimesAchievement.SetActive(achievements[Constants.Achievements.Rotate50Times]);
 		}));
+
+		highscoreText.text = PlayerPrefs.GetInt(Constants.Player.Highscore, 0).ToString();
 	}
 
 	private void FixedUpdate()
