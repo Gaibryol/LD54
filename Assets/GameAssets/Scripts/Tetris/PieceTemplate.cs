@@ -21,6 +21,7 @@ public class PieceTemplate : ScriptableObject
     public Sprite glowBlockSprite;
 
     public Vector2 previewPieceOffset;
+    public Vector2 guidePreviewOffset;
 
     public List<Block> SpawnTemplate(Block blockTemplate, Vector2Int startingSpawnPosition, Transform parent, bool constrain = true, int sortOrder=1)
     {

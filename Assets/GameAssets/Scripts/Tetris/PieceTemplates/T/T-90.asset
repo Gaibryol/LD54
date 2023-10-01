@@ -43,3 +43,4 @@ MonoBehaviour:
   blockSprite: {fileID: 21300000, guid: 15b5973d891df0c4bbf6585287103bf1, type: 3}
   glowBlockSprite: {fileID: 21300000, guid: 0bd2c4aacc8818a47a5796762d0c0ef6, type: 3}
   previewPieceOffset: {x: 0.666, y: -0.333}
+  guidePreviewOffset: {x: 0, y: -0.333}
