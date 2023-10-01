@@ -179,8 +179,8 @@ public class UIManager : MonoBehaviour
 	private void ToggleVolume()
 	{
 		volumeOn = !volumeOn;
-		eventBroker.Publish(this, new AudioEvents.ChangeMusicVolume(volumeOn ? 0.25f : 0));
-		eventBroker.Publish(this, new AudioEvents.ChangeSFXVolume(volumeOn ? 0.25f : 0));
+		eventBroker.Publish(this, new AudioEvents.ChangeMusicVolume(volumeOn ? Constants.Audio.DefaultAudioLevel : 0));
+		eventBroker.Publish(this, new AudioEvents.ChangeSFXVolume(volumeOn ? Constants.Audio.DefaultAudioLevel : 0));
 		volumeButton.GetComponent<Image>().sprite = volumeOn ? volumeOnSprite : volumeOffSprite;
 		eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Button));
 	}
