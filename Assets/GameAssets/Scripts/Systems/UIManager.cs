@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour
 	[SerializeField] private Button endRestartButton;
 
 	private bool volumeOn;
+	private bool isPlaying;
 
 	private void Awake()
 	{
@@ -42,19 +43,21 @@ public class UIManager : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		if (gameManager == null) return;
+		if (gameManager == null || !isPlaying) return;
 		scoreText.text = ((int)gameManager.Score).ToString();
 	}
 
 	private void StartGameHandler(BrokerEvent<GameStateEvents.StartGame> inEvent)
 	{
 		gameManager = inEvent.Payload.GameManager;
+		isPlaying = true;
 	}
 
 	private void EndGameHandler(BrokerEvent<GameStateEvents.EndGame> inEvent)
 	{
 		endScreen.SetActive(true);
 		finalScoreText.text = scoreText.text;
+		isPlaying = false;
 	}
 
 	private void UpdateEndUIHandler(BrokerEvent<UIEvents.UpdateEndUI> inEvent)

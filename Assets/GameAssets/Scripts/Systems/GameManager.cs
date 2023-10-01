@@ -72,7 +72,6 @@ public class GameManager : MonoBehaviour
 	{
 		Score = 0;
 		isPlaying = true;
-		eventBroker.Publish(this, new GameStateEvents.StartGame(this));
 	}
 
 	private void OnEnable()

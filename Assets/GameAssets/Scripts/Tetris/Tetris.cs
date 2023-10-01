@@ -62,7 +62,6 @@ public class Tetris : MonoBehaviour
         {
             Destroy(block.gameObject);
         }
-        StartGame();
     }
 
     private void StartGameHandler(BrokerEvent<GameStateEvents.StartGame> @event)
