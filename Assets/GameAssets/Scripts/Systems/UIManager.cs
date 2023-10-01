@@ -76,6 +76,7 @@ public class UIManager : MonoBehaviour
 	{
 		infoPanel.SetActive(!infoPanel.activeSelf);
 		infoButton.GetComponent<Image>().sprite = infoPanel.activeSelf ? infoOnSprite : infoOffSprite;
+		eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Button));
 	}
 	
 	private void ToggleVolume()
@@ -84,6 +85,7 @@ public class UIManager : MonoBehaviour
 		eventBroker.Publish(this, new AudioEvents.ChangeMusicVolume(volumeOn ? 0.25f : 0));
 		eventBroker.Publish(this, new AudioEvents.ChangeSFXVolume(volumeOn ? 0.25f : 0));
 		volumeButton.GetComponent<Image>().sprite = volumeOn ? volumeOnSprite : volumeOffSprite;
+		eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Button));
 	}
 
 	private void PromptRestart()
@@ -92,6 +94,7 @@ public class UIManager : MonoBehaviour
 
 		Time.timeScale = 0f;
 		restartPanel.SetActive(true);
+		eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Button));
 	}
 
 	private void RestartGame()
@@ -100,12 +103,14 @@ public class UIManager : MonoBehaviour
 		endScreen.SetActive(false);
 		restartPanel.SetActive(false);
 		Time.timeScale = 1f;
+		eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Button));
 	}
 
 	private void CancelRestart()
 	{
 		Time.timeScale = 1f;
 		restartPanel.SetActive(false);
+		eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Button));
 	}
 
 	private void ToggleGrid()
@@ -113,6 +118,7 @@ public class UIManager : MonoBehaviour
 		gridOn = !gridOn;
 		grid.SetActive(gridOn);
 		gridButton.GetComponent<Image>().sprite = gridOn ? gridOnSprite : gridOffSprite;
+		eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Button));
 	}
 
 	private void OnEnable()

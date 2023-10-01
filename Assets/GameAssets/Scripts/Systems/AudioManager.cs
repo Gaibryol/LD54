@@ -8,7 +8,7 @@ public class AudioManager : MonoBehaviour
 	[SerializeField] private AudioSource musicSource;
 	[SerializeField] private AudioSource sfxSource;
 
-	[SerializeField, Header("Music")] private AudioClip mainMenuTrack;
+	[SerializeField, Header("Music")] private AudioClip mainTrack;
 
 	[SerializeField, Header("SFX")] private AudioClip buttonPress;
 	[SerializeField] private AudioClip death;
@@ -31,7 +31,7 @@ public class AudioManager : MonoBehaviour
 	private void Awake()
 	{
 		// Set up music and sfx dictionaries
-		//music.Add(Constants.Audio.Music.MainMenu, mainMenuTrack);
+		music.Add(Constants.Audio.Music.MainTrack, mainTrack);
 
 		sfx.Add(Constants.Audio.SFX.Button, buttonPress);
 		sfx.Add(Constants.Audio.SFX.Death, death);

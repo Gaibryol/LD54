@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour
 		inEvent.Payload.WorldPosition = transform.position;
     }
 
-    private void FixedUpdate()
+	private void FixedUpdate()
 	{
 		// Assign player velocity
 		Vector2 moveDirection = move.ReadValue<Vector2>();

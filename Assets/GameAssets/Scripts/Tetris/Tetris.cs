@@ -217,6 +217,8 @@ public class Tetris : MonoBehaviour
 			eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.RowClear));
 		}
 
+		eventBrokerComponent.Publish(this, new PlayerEvents.ClearLines(rows.Count));
+
         ShiftBlocks(rows);
     }
 

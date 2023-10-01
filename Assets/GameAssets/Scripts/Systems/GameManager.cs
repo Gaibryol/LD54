@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		
+		eventBroker.Publish(this, new AudioEvents.PlayMusic(Constants.Audio.Music.MainTrack));
 	}
 
 	private void Update()
@@ -71,17 +71,43 @@ public class GameManager : MonoBehaviour
 	private void RestartGameHandler(BrokerEvent<GameStateEvents.RestartGame> inEvent)
 	{
 		Score = 0;
-		isPlaying = true;
+		isPlaying = false;
 	}
+
+	private void ClearLinesHandler(BrokerEvent<PlayerEvents.ClearLines> inEvent)
+	{
+		//Debug.Log("cleared: " + inEvent.Payload.NumCleared);
+		switch (inEvent.Payload.NumCleared)
+		{
+			case 1:
+				Score += Constants.Player.LinesCleared1;
+				break;
+
+			case 2:
+				Score += Constants.Player.LinesCleared2;
+				break;
+
+			case 3:
+				Score += Constants.Player.LinesCleared3;
+				break;
+
+			case 4:
+				Score += Constants.Player.LinesCleared4;
+				break;
+		}
+	}
+
 
 	private void OnEnable()
 	{
+		eventBroker.Subscribe<PlayerEvents.ClearLines>(ClearLinesHandler);
 		eventBroker.Subscribe<GameStateEvents.EndGame>(EndGameHandler);
 		eventBroker.Subscribe<GameStateEvents.RestartGame>(RestartGameHandler);
 	}
 
 	private void OnDisable()
 	{
+		eventBroker.Unsubscribe<PlayerEvents.ClearLines>(ClearLinesHandler);
 		eventBroker.Unsubscribe<GameStateEvents.EndGame>(EndGameHandler);
 		eventBroker.Unsubscribe<GameStateEvents.RestartGame>(RestartGameHandler);
 	}

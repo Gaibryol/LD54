@@ -11,7 +11,7 @@ public partial class Constants
 
 		public struct Music
 		{
-			public const string MainMenu = "MainMenu";
+			public const string MainTrack = "chinchilla";
 		}
 
 		public struct SFX
