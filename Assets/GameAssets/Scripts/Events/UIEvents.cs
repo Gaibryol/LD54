@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class UIEvents
 {
+	public class UpdateStartUI
+	{
+		public UpdateStartUI(float volume)
+		{
+			Volume = volume;
+		}
+
+		public readonly float Volume;
+	}
+
     public class UpdateEndUI
 	{
 		public UpdateEndUI(bool newHighscore)

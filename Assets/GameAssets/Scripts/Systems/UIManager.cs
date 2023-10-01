@@ -88,6 +88,11 @@ public class UIManager : MonoBehaviour
 		scoreText.text = ((int)gameManager.Score).ToString();
 	}
 
+	private void UpdateStartUIHandler(BrokerEvent<UIEvents.UpdateStartUI> inEvent)
+	{
+		volumeButton.GetComponent<Image>().sprite = inEvent.Payload.Volume > 0f ? volumeOnSprite : volumeOffSprite;
+	}
+
 	private void EarnAchievementHandler(BrokerEvent<AchievementEvents.EarnAchievement> inEvent)
 	{
 		switch (inEvent.Payload.Achievement)
@@ -234,6 +239,7 @@ public class UIManager : MonoBehaviour
 		eventBroker.Subscribe<GameStateEvents.SecretEnding>(SecretEndingHandler);
 		eventBroker.Subscribe<UIEvents.UpdateEndUI>(UpdateEndUIHandler);
 		eventBroker.Subscribe<UIEvents.UpdateCountDownUI>(UpdateCountDownUIHandler);
+		eventBroker.Subscribe<UIEvents.UpdateStartUI>(UpdateStartUIHandler);
 		eventBroker.Subscribe<AchievementEvents.EarnAchievement>(EarnAchievementHandler);
 
 		infoButton.onClick.AddListener(ToggleInfo);
@@ -252,6 +258,7 @@ public class UIManager : MonoBehaviour
 		eventBroker.Unsubscribe<GameStateEvents.SecretEnding>(SecretEndingHandler);
 		eventBroker.Unsubscribe<UIEvents.UpdateEndUI>(UpdateEndUIHandler);
         eventBroker.Unsubscribe<UIEvents.UpdateCountDownUI>(UpdateCountDownUIHandler);
+		eventBroker.Unsubscribe<UIEvents.UpdateStartUI>(UpdateStartUIHandler);
 		eventBroker.Unsubscribe<AchievementEvents.EarnAchievement>(EarnAchievementHandler);
 
 		infoButton.onClick.RemoveListener(ToggleInfo);

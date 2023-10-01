@@ -48,6 +48,11 @@ public class AudioManager : MonoBehaviour
 		sfxVolume = PlayerPrefs.GetFloat(Constants.Audio.SFXVolumePP, Constants.Audio.DefaultAudioLevel);
 	}
 
+	private void Start()
+	{
+		eventBrokerComponent.Publish(this, new UIEvents.UpdateStartUI(musicVolume));
+	}
+
 	private void OnEnable()
 	{
 		eventBrokerComponent.Subscribe<AudioEvents.PlayMusic>(PlayMusicHandler);
