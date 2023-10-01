@@ -22,6 +22,7 @@ public partial class Constants
 			public const string RotateClockwise = "RotateClockwise";
 			public const string RotateCounterclockwise = "RotateCounterclockwise";
 			public const string RowClear = "RowClear";
+			public const string ComboClear = "Combo";
 		}
 	}
 }

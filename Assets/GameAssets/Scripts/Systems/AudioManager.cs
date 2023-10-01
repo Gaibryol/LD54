@@ -16,6 +16,7 @@ public class AudioManager : MonoBehaviour
 	[SerializeField] private AudioClip rotateClockwise;
 	[SerializeField] private AudioClip rotateCounterclockwise;
 	[SerializeField] private AudioClip rowClear;
+	[SerializeField] private AudioClip comboClear;
 
 	private float musicVolume;
 	private float sfxVolume;
@@ -39,6 +40,7 @@ public class AudioManager : MonoBehaviour
 		sfx.Add(Constants.Audio.SFX.RotateClockwise, rotateClockwise);
 		sfx.Add(Constants.Audio.SFX.RotateCounterclockwise, rotateCounterclockwise);
 		sfx.Add(Constants.Audio.SFX.RowClear, rowClear);
+		sfx.Add(Constants.Audio.SFX.ComboClear, comboClear);
 	}
 
 	private void OnEnable()

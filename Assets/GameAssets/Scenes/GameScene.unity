@@ -1068,6 +1068,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 329548043}
     - target: {fileID: 5270023901670952771, guid: 3f0cb55ddb0116f4880665e3931ccffc, type: 3}
+      propertyPath: comboTemplate
+      value: 
+      objectReference: {fileID: 7035525044661288517, guid: dfe9b240a67c786459e7fdb27cbc1e27, type: 3}
+    - target: {fileID: 5270023901670952771, guid: 3f0cb55ddb0116f4880665e3931ccffc, type: 3}
       propertyPath: LineClearTemplate
       value: 
       objectReference: {fileID: 5319481097298951450, guid: 0c3fce256bbf4f94ab66880b7b45cb48, type: 3}
@@ -1509,7 +1513,6 @@ MonoBehaviour:
   finalScoreText: {fileID: 845484735}
   endRestartButton: {fileID: 1302773505}
   splashScreen: {fileID: 9883505}
-  splash: {fileID: 0}
 --- !u!4 &676623392
 Transform:
   m_ObjectHideFlags: 0
@@ -3221,6 +3224,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3004386593331303691, guid: 694de4493472c0d48bb3b0ca5022bb2c, type: 3}
+      propertyPath: comboClear
+      value: 
+      objectReference: {fileID: 8300000, guid: 45e2d65415c495447bdbd30851e3b5a9, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 694de4493472c0d48bb3b0ca5022bb2c, type: 3}
 --- !u!1 &1899724899
