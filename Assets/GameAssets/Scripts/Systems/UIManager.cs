@@ -24,6 +24,11 @@ public class UIManager : MonoBehaviour
 	[SerializeField] private Button promptRestartButton;
 	[SerializeField] private GameObject restartPanel;
 
+	[SerializeField] private Button gridButton;
+	[SerializeField] private Sprite gridOnSprite;
+	[SerializeField] private Sprite gridOffSprite;
+	[SerializeField] private GameObject grid;
+
 	[SerializeField] private Button yesRestartButton;
 	[SerializeField] private Button noRestartButton;
 
@@ -34,11 +39,13 @@ public class UIManager : MonoBehaviour
 	[SerializeField] private Button endRestartButton;
 
 	private bool volumeOn;
+	private bool gridOn;
 	private bool isPlaying;
 
 	private void Awake()
 	{
 		volumeOn = true;
+		gridOn = false;
 	}
 
 	private void FixedUpdate()
@@ -99,6 +106,13 @@ public class UIManager : MonoBehaviour
 		restartPanel.SetActive(false);
 	}
 
+	private void ToggleGrid()
+	{
+		gridOn = !gridOn;
+		grid.SetActive(gridOn);
+		gridButton.GetComponent<Image>().sprite = gridOn ? gridOnSprite : gridOffSprite;
+	}
+
 	private void OnEnable()
 	{
 		eventBroker.Subscribe<GameStateEvents.StartGame>(StartGameHandler);
@@ -110,6 +124,7 @@ public class UIManager : MonoBehaviour
 		promptRestartButton.onClick.AddListener(PromptRestart);
 		yesRestartButton.onClick.AddListener(RestartGame);
 		noRestartButton.onClick.AddListener(CancelRestart);
+		gridButton.onClick.AddListener(ToggleGrid);
 		endRestartButton.onClick.AddListener(RestartGame);
 	}
 
@@ -124,6 +139,7 @@ public class UIManager : MonoBehaviour
 		promptRestartButton.onClick.RemoveListener(PromptRestart);
 		yesRestartButton.onClick.RemoveListener(RestartGame);
 		noRestartButton.onClick.RemoveListener(CancelRestart);
+		gridButton.onClick.RemoveListener(ToggleGrid);
 		endRestartButton.onClick.RemoveListener(RestartGame);
 	}
 }
