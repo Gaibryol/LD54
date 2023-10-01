@@ -166,7 +166,7 @@ public class PlayerController : MonoBehaviour
 			// Player collided with the bottom of an object while grounded
 			if (playing)
 			{
-				//eventBroker.Publish(this, new GameStateEvents.EndGame());
+				eventBroker.Publish(this, new GameStateEvents.EndGame());
 				eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Death));
 			}
 		}
