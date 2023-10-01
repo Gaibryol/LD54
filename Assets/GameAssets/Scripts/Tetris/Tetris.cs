@@ -26,6 +26,7 @@ public class Tetris : MonoBehaviour
     private List<Block> allBlocks;
 
     private bool playing;
+    private bool updatingBoard;
 
     private EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
     void Start()
@@ -81,7 +82,7 @@ public class Tetris : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!playing) return;
+        if (!playing || updatingBoard) return;
         ClearLines();
     }
 
@@ -183,11 +184,12 @@ public class Tetris : MonoBehaviour
             }
         } else
         {
-
+            updatingBoard = true;
             foreach (Block block in activeBlocks)
             {
                 playspace.SetBoard(block.GetCurrentPosition(), block);
             }
+            updatingBoard = false;
             activeBlocks.Clear();
 			eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.PieceLand));
 		}
@@ -199,6 +201,7 @@ public class Tetris : MonoBehaviour
     {
         List<int> rows = playspace.ClearedLines();
         if (rows.Count == 0) return;
+
         foreach (int row in rows)
         {
             GameObject lineClear = Instantiate(LineClearTemplate, transform);
@@ -213,20 +216,25 @@ public class Tetris : MonoBehaviour
 			eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.RowClear));
 		}
 
-        ShiftBlocks(rows.Min());
+        ShiftBlocks(rows);
     }
 
-    private void ShiftBlocks(int startingRow)
+    private void ShiftBlocks(List<int> rows)
     {
-        for (int row = startingRow; row >= 0; row--)
+        foreach (int clearedRow in rows)
         {
-            foreach (Block block in playspace.GetAllBlocksInRow(row))
+            // shift everything "above" down
+            for (int row = clearedRow - 1; row >= 0; row--)
             {
-                Vector2Int blockPosition = block.GetCurrentPosition();
-                playspace.SetBoard(blockPosition, null);
-                Vector2 newPosition = playspace.GetNextFreeSpaceInCol(blockPosition);
-                block.AddPositionOffset((int)(newPosition.x - blockPosition.x));
-                playspace.SetBoard(block.GetCurrentPosition(), block);
+                foreach (Block block in playspace.GetAllBlocksInRow(row))
+                {
+                    Vector2Int blockPosition = block.GetCurrentPosition();
+                    playspace.SetBoard(blockPosition, null);
+                    block.AddPositionOffset();
+                    //Vector2 newPosition = playspace.GetNextFreeSpaceInCol(blockPosition);
+                    //block.AddPositionOffset((int)(newPosition.x - blockPosition.x));
+                    playspace.SetBoard(block.GetCurrentPosition(), block);
+                }
             }
         }
     }

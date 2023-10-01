@@ -37,8 +37,8 @@ MonoBehaviour:
   - cols: 00000000000000000000
   - cols: 00000000000000000000
   - cols: 00000000000000000000
-  pieceCenter: {x: 0, y: 0}
-  blocksLeftOfCenter: 0
-  blockRightOfCenter: 2
-  blockSprite: {fileID: 21300000, guid: e9955e9144a7a98418b6698594c3da20, type: 3}
-  previewPieceOffset: {x: 0.333, y: -0.4995}
+  pieceCenter: {x: 0, y: 1}
+  blocksLeftOfCenter: 1
+  blockRightOfCenter: 1
+  blockSprite: {fileID: 21300000, guid: 05943a1027dbd4c4cb32869cc3292b1d, type: 3}
+  previewPieceOffset: {x: 0.666, y: -0.4995}
