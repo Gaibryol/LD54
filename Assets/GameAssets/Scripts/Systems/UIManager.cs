@@ -45,7 +45,6 @@ public class UIManager : MonoBehaviour
 
 
 	[SerializeField, Header("Secret Ending")] private GameObject splashScreen;
-	[SerializeField] private Sprite splash;
 
 	private bool volumeOn;
 	private bool gridOn;
@@ -109,7 +108,7 @@ public class UIManager : MonoBehaviour
 
 		splashScreen.SetActive(false);
 		endScreen.SetActive(true);
-		finalScoreText.text = scoreText.text;
+		finalScoreText.text = ((int)gameManager.Score).ToString();
 		endScreen.GetComponent<Image>().sprite = secretEndingSprite;
 	}
 

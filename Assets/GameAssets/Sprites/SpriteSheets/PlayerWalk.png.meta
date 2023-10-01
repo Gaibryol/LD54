@@ -149,7 +149,7 @@ TextureImporter:
         width: 36
         height: 51
       alignment: 9
-      pivot: {x: 0.417, y: 0.5}
+      pivot: {x: 0.417, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -170,13 +170,13 @@ TextureImporter:
         width: 36
         height: 51
       alignment: 9
-      pivot: {x: 0.417, y: 0.5}
+      pivot: {x: 0.417, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7482f6ac6140f904893bb955f384830f
+      spriteID: fd8096faee8d65c4a81719df41598489
       internalID: -1242868926
       vertices: []
       indices: 
@@ -191,13 +191,13 @@ TextureImporter:
         width: 36
         height: 51
       alignment: 9
-      pivot: {x: 0.417, y: 0.5}
+      pivot: {x: 0.417, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4cecb07d7bd20a645ab873c8f8bbe41a
+      spriteID: 3ef3578fafd32e5438bc5388064c8db4
       internalID: 1790173653
       vertices: []
       indices: 
@@ -212,13 +212,13 @@ TextureImporter:
         width: 36
         height: 51
       alignment: 9
-      pivot: {x: 0.417, y: 0.5}
+      pivot: {x: 0.417, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e4f988c2021fa5e46a4cd5adc191c2c7
+      spriteID: 374dbc0380dc1584aa4eed9b9715ee4b
       internalID: 104662532
       vertices: []
       indices: 
@@ -233,13 +233,13 @@ TextureImporter:
         width: 36
         height: 51
       alignment: 9
-      pivot: {x: 0.417, y: 0.5}
+      pivot: {x: 0.417, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ceb97157397cc044186b3d5eeb0a7341
+      spriteID: 5f53186b122bfc1429811680fc92269e
       internalID: -852982652
       vertices: []
       indices: 
