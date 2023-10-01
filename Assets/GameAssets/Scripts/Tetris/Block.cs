@@ -6,7 +6,7 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     public Vector2Int localPosition;    // x: rows(0, 24); y: cols(0, 10)
-
+    public bool isMoving = true;
     private void Start()
     {
         //GetComponent<SpriteRenderer>().color = UnityEngine.Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);

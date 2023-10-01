@@ -188,6 +188,7 @@ public class Tetris : MonoBehaviour
             foreach (Block block in activeBlocks)
             {
                 playspace.SetBoard(block.GetCurrentPosition(), block);
+                block.isMoving = false;
             }
             updatingBoard = false;
             activeBlocks.Clear();
@@ -230,10 +231,12 @@ public class Tetris : MonoBehaviour
                 {
                     Vector2Int blockPosition = block.GetCurrentPosition();
                     playspace.SetBoard(blockPosition, null);
+                    block.isMoving = true;
                     block.AddPositionOffset();
                     //Vector2 newPosition = playspace.GetNextFreeSpaceInCol(blockPosition);
                     //block.AddPositionOffset((int)(newPosition.x - blockPosition.x));
                     playspace.SetBoard(block.GetCurrentPosition(), block);
+                    block.isMoving = false;
                 }
             }
         }
