@@ -85,6 +85,7 @@ public class Tetris : MonoBehaviour
         activeBlocks = new List<Block>();
         allBlocks = new List<Block>();
         playing = true;
+        updatingBoard = false;
 
         StartCoroutine(TickPiece());
     }
