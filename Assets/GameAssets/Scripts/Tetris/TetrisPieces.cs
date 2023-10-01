@@ -28,7 +28,7 @@ public class TetrisPieces
             FillSpawningBag();
         }
 
-		int index = UnityEngine.Random.Range(0, spawningBag.Count);
+		    int index = UnityEngine.Random.Range(0, spawningBag.Count);
         int pieceType = spawningBag[index];
         spawningBag.RemoveAt(index);
         switch (pieceType)

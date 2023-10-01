@@ -41,15 +41,17 @@ public class Tetris : MonoBehaviour
         eventBrokerComponent.Subscribe<GameStateEvents.StartGame>(StartGameHandler);
         eventBrokerComponent.Subscribe<GameStateEvents.EndGame>(EndGameHandler);
         eventBrokerComponent.Subscribe<GameStateEvents.RestartGame>(RestartGameHandler);
+		eventBrokerComponent.Subscribe<GameStateEvents.SecretEnding>(SecretEndingHandler);
     }
 
-    private void OnDisable()
+	private void OnDisable()
     {
         eventBrokerComponent.Unsubscribe<TetrisEvents.RotatePreviewBlock>(RotatePreviewBlockHandler);
         eventBrokerComponent.Unsubscribe<GameStateEvents.StartGame>(StartGameHandler);
         eventBrokerComponent.Unsubscribe<GameStateEvents.EndGame>(EndGameHandler);
         eventBrokerComponent.Unsubscribe<GameStateEvents.RestartGame>(RestartGameHandler);
-    }
+		eventBrokerComponent.Unsubscribe<GameStateEvents.SecretEnding>(SecretEndingHandler);
+	}
 
     private void EndGameHandler(BrokerEvent<GameStateEvents.EndGame> @event)
     {
@@ -70,7 +72,13 @@ public class Tetris : MonoBehaviour
         StartGame();
     }
 
-    public void StartGame()
+	private void SecretEndingHandler(BrokerEvent<GameStateEvents.SecretEnding> inEvent)
+	{
+		playing = false;
+		StopAllCoroutines();
+	}
+
+	public void StartGame()
     {
         playspace = new Playspace();
         activeBlocks = new List<Block>();

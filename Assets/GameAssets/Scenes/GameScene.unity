@@ -261,7 +261,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9883506
 RectTransform:
   m_ObjectHideFlags: 0
@@ -295,15 +295,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.2627451}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: a1fa821d202663240b6453cb1e72eea2, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1504,11 +1504,11 @@ MonoBehaviour:
   endScreen: {fileID: 1102877430}
   gameOverSprite: {fileID: 21300000, guid: 1ebae9e464b0b5740b80a2a7a4ad9e80, type: 3}
   highScoreSprite: {fileID: 21300000, guid: 6462cf426ca92f541ac6821978a965ab, type: 3}
+  secretEndingSprite: {fileID: 21300000, guid: e30af75f714b6ad4ebda2b6936ca3390, type: 3}
   finalScoreText: {fileID: 845484735}
   endRestartButton: {fileID: 1302773505}
-  splashScreen: {fileID: 0}
-  splash1: {fileID: 0}
-  splash2: {fileID: 0}
+  splashScreen: {fileID: 9883505}
+  splash: {fileID: 0}
 --- !u!4 &676623392
 Transform:
   m_ObjectHideFlags: 0
@@ -3393,6 +3393,7 @@ GameObject:
   - component: {fileID: 2006454987}
   - component: {fileID: 2006454986}
   - component: {fileID: 2006454988}
+  - component: {fileID: 2006454989}
   m_Layer: 0
   m_Name: TopCover/SecretEnding
   m_TagString: Untagged
@@ -3493,6 +3494,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &2006454989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2006454985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a0821c0adbbae1498067264be40a35f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2128261081
 GameObject:
   m_ObjectHideFlags: 0
