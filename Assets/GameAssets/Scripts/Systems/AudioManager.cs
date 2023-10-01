@@ -41,6 +41,9 @@ public class AudioManager : MonoBehaviour
 		sfx.Add(Constants.Audio.SFX.RotateCounterclockwise, rotateCounterclockwise);
 		sfx.Add(Constants.Audio.SFX.RowClear, rowClear);
 		sfx.Add(Constants.Audio.SFX.ComboClear, comboClear);
+
+		musicVolume = PlayerPrefs.GetFloat(Constants.Audio.MusicVolumePP, Constants.Audio.DefaultAudioLevel);
+		sfxVolume = PlayerPrefs.GetFloat(Constants.Audio.SFXVolumePP, Constants.Audio.DefaultAudioLevel);
 	}
 
 	private void OnEnable()

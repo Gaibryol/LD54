@@ -11,5 +11,6 @@ public class SecretEnding : MonoBehaviour
 		if (collision.GetComponent<PlayerController>() == null) return;
 
 		eventBroker.Publish(this, new GameStateEvents.SecretEnding());
+		eventBroker.Publish(this, new AchievementEvents.EarnAchievement(Constants.Achievements.Escaped));
 	}
 }

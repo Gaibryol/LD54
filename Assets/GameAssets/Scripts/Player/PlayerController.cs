@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour
 
 	private Vector3 spawnPos;
 
+	private int numJumped;
+	private int numRotate;
+
 	[SerializeField] private float moveSpeed;
 	[SerializeField] private float jumpStrength;
 
@@ -51,6 +54,9 @@ public class PlayerController : MonoBehaviour
 
 		transform.position = spawnPos;
 
+		numJumped = 0;
+		numRotate = 0;
+
 		playing = false;
 	}
 
@@ -60,6 +66,12 @@ public class PlayerController : MonoBehaviour
 		{
 			anim.SetTrigger(Constants.Player.JumpAnimTrigger);
 			rbody.AddForce(new Vector2(0, jumpStrength), ForceMode2D.Impulse);
+
+			numJumped += 1;
+			if (numJumped >= Constants.Achievements.numTimesToJump)
+			{
+				eventBroker.Publish(this, new AchievementEvents.EarnAchievement(Constants.Achievements.Jump100Times));
+			}
 			return;
 		}
 	}
@@ -203,6 +215,15 @@ public class PlayerController : MonoBehaviour
 				StartCoroutine(StartLeftButtonCooldown());
 				eventBroker.Publish(this, new TetrisEvents.RotatePreviewBlock(false));
 				eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.RotateCounterclockwise));
+
+				if (playing)
+				{
+					numRotate += 1;
+					if (numRotate >= Constants.Achievements.numTimesToRotate)
+					{
+						eventBroker.Publish(this, new AchievementEvents.EarnAchievement(Constants.Achievements.Rotate50Times));
+					}
+				}
 			}
 		}
 		else if (collision.transform.tag == Constants.RightButtonTag)
@@ -214,6 +235,15 @@ public class PlayerController : MonoBehaviour
 				StartCoroutine(StartRightButtonCooldown());
                 eventBroker.Publish(this, new TetrisEvents.RotatePreviewBlock(true));
 				eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.RotateClockwise));
+
+				if (playing)
+				{
+					numRotate += 1;
+					if (numRotate >= Constants.Achievements.numTimesToRotate)
+					{
+						eventBroker.Publish(this, new AchievementEvents.EarnAchievement(Constants.Achievements.Rotate50Times));
+					}
+				}
 			}
         }
 	}

@@ -29,11 +29,16 @@ public class Tetris : MonoBehaviour
     private bool playing;
     private bool updatingBoard;
 
+	private int numCombos;
+
     private EventBrokerComponent eventBrokerComponent = new EventBrokerComponent();
+
     void Start()
     {
         GetNextPiece();
         UpdateGuideWindow();
+
+		numCombos = 0;
     }
 
     private void OnEnable()
@@ -86,6 +91,8 @@ public class Tetris : MonoBehaviour
         allBlocks = new List<Block>();
         playing = true;
         updatingBoard = false;
+
+		numCombos = 0;
 
         StartCoroutine(TickPiece());
     }
@@ -243,6 +250,20 @@ public class Tetris : MonoBehaviour
 		}
 
 		eventBrokerComponent.Publish(this, new PlayerEvents.ClearLines(rows.Count));
+		if (rows.Count >= 2)
+		{
+			numCombos += 1;
+
+			if (numCombos >= Constants.Achievements.numTimesToCombo)
+			{
+				eventBrokerComponent.Publish(this, new AchievementEvents.EarnAchievement(Constants.Achievements.Combo20Times));
+			}
+
+			if (rows.Count == 4)
+			{
+				eventBrokerComponent.Publish(this, new AchievementEvents.EarnAchievement(Constants.Achievements.EarnBigCombo));
+			}
+		}
 
         ShiftBlocks(rows);
     }

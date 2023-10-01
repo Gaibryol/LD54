@@ -29,6 +29,24 @@ public class GameManager : MonoBehaviour
 		{
 			Score += Time.deltaTime;
 		}
+
+		CheckAchievements();
+	}
+
+	private void CheckAchievements()
+	{
+		if (Score >= Constants.Achievements.numPointsC)
+		{
+			eventBroker.Publish(this, new AchievementEvents.EarnAchievement(Constants.Achievements.Earn3000Points));
+		}
+		if (Score >= Constants.Achievements.numPointsB)
+		{
+			eventBroker.Publish(this, new AchievementEvents.EarnAchievement(Constants.Achievements.Earn2000Points));
+		}
+		if (Score >= Constants.Achievements.numPointsA)
+		{
+			eventBroker.Publish(this, new AchievementEvents.EarnAchievement(Constants.Achievements.Earn1000Points));
+		}
 	}
 
 	public void StartGame()
