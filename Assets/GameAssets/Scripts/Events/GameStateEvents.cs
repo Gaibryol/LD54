@@ -20,4 +20,9 @@ public class GameStateEvents
 	{
 
 	}
+
+	public class SecretEnding
+	{
+
+	}
 }

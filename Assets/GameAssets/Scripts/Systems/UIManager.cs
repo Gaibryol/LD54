@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -38,6 +39,11 @@ public class UIManager : MonoBehaviour
 	[SerializeField] private TMP_Text finalScoreText;
 	[SerializeField] private Button endRestartButton;
 
+
+	[SerializeField, Header("Secret Ending")] private GameObject splashScreen;
+	[SerializeField] private Sprite splash1;
+	[SerializeField] private Sprite splash2;
+
 	private bool volumeOn;
 	private bool gridOn;
 	private bool isPlaying;
@@ -70,6 +76,30 @@ public class UIManager : MonoBehaviour
 	private void UpdateEndUIHandler(BrokerEvent<UIEvents.UpdateEndUI> inEvent)
 	{
 		endScreen.GetComponent<Image>().sprite = inEvent.Payload.NewHighscore ? highScoreSprite : gameOverSprite;
+	}
+
+	private void SecretEndingHandler(BrokerEvent<GameStateEvents.SecretEnding> inEvent)
+	{
+		// Slow effect?
+		// Open splash screen 1
+		// splash screen 2
+		// Return to game view with congratulatory message
+
+		StartCoroutine(SecretEndingCoroutine());
+	}
+
+	private IEnumerator SecretEndingCoroutine()
+	{
+		splashScreen.SetActive(true);
+
+		yield return new WaitForSeconds(3f);
+
+		splashScreen.GetComponent<Image>().sprite = splash2;
+
+		yield return new WaitForSeconds(3f);
+
+		splashScreen.SetActive(false);
+		splashScreen.GetComponent<Image>().sprite = splash1;
 	}
 
 	private void ToggleInfo()
@@ -125,6 +155,7 @@ public class UIManager : MonoBehaviour
 	{
 		eventBroker.Subscribe<GameStateEvents.StartGame>(StartGameHandler);
 		eventBroker.Subscribe<GameStateEvents.EndGame>(EndGameHandler);
+		eventBroker.Subscribe<GameStateEvents.SecretEnding>(SecretEndingHandler);
 		eventBroker.Subscribe<UIEvents.UpdateEndUI>(UpdateEndUIHandler);
 
 		infoButton.onClick.AddListener(ToggleInfo);
@@ -140,6 +171,7 @@ public class UIManager : MonoBehaviour
 	{
 		eventBroker.Unsubscribe<GameStateEvents.StartGame>(StartGameHandler);
 		eventBroker.Unsubscribe<GameStateEvents.EndGame>(EndGameHandler);
+		eventBroker.Unsubscribe<GameStateEvents.SecretEnding>(SecretEndingHandler);
 		eventBroker.Unsubscribe<UIEvents.UpdateEndUI>(UpdateEndUIHandler);
 
 		infoButton.onClick.RemoveListener(ToggleInfo);

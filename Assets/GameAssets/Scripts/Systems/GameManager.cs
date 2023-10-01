@@ -97,12 +97,18 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+	private void SecretEndingHandler(BrokerEvent<GameStateEvents.SecretEnding> inEvent)
+	{
+		throw new NotImplementedException();
+	}
+
 
 	private void OnEnable()
 	{
 		eventBroker.Subscribe<PlayerEvents.ClearLines>(ClearLinesHandler);
 		eventBroker.Subscribe<GameStateEvents.EndGame>(EndGameHandler);
 		eventBroker.Subscribe<GameStateEvents.RestartGame>(RestartGameHandler);
+		eventBroker.Subscribe<GameStateEvents.SecretEnding>(SecretEndingHandler);
 	}
 
 	private void OnDisable()
@@ -110,5 +116,6 @@ public class GameManager : MonoBehaviour
 		eventBroker.Unsubscribe<PlayerEvents.ClearLines>(ClearLinesHandler);
 		eventBroker.Unsubscribe<GameStateEvents.EndGame>(EndGameHandler);
 		eventBroker.Unsubscribe<GameStateEvents.RestartGame>(RestartGameHandler);
+		eventBroker.Unsubscribe<GameStateEvents.SecretEnding>(SecretEndingHandler);
 	}
 }
