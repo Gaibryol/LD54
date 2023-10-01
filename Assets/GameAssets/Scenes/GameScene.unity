@@ -1705,7 +1705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 455392495}
-  highscoreText: {fileID: 0}
+  highscoreText: {fileID: 843899452}
   infoPanel: {fileID: 387214526}
   infoButton: {fileID: 940187139}
   infoOnSprite: {fileID: 21300000, guid: bbec1faebd6f4714698b1998727198a9, type: 3}
