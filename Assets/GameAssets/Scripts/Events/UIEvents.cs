@@ -16,12 +16,14 @@ public class UIEvents
 
     public class UpdateEndUI
 	{
-		public UpdateEndUI(bool newHighscore)
+		public UpdateEndUI(bool newHighscore, bool secretEnding)
 		{
 			NewHighscore = newHighscore;
+			SecretEnding = secretEnding;
 		}
 
 		public readonly bool NewHighscore;
+		public readonly bool SecretEnding;
 	}
 
 	public class UpdateCountDownUI
