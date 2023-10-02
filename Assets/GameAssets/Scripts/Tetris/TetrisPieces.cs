@@ -23,7 +23,7 @@ public class TetrisPieces
 
     public PieceTemplate[] GetRandomTemplateList(bool starting=false)
     {
-        if (spawningBag.Count == 0)
+        if (spawningBag.Count == 0 || starting)
         {
             FillSpawningBag();
         }

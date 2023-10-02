@@ -86,6 +86,8 @@ public class Tetris : MonoBehaviour
         currentTemplate = null;
         currentPiecesTemplates = null;
 
+        GetNextPiece(true);
+
         savedPiecesTemplates = null;
         savedPiece = null;
         isSwappedPiece = false;
