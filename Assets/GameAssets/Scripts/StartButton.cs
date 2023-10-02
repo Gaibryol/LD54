@@ -6,6 +6,7 @@ using UnityEngine;
 public class StartButton : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private GameObject helpText;
     private Animator animator;
     private Vector3 startLocation;
 
@@ -32,6 +33,7 @@ public class StartButton : MonoBehaviour
 
     private void RestartGameHandler(BrokerEvent<GameStateEvents.RestartGame> @event)
     {
+        helpText.SetActive(true);
         transform.position = startLocation;
     }
 
@@ -46,6 +48,7 @@ public class StartButton : MonoBehaviour
             animator.Rebind();
             animator.Update(0);
             animator.enabled = false;
+            helpText.SetActive(false);
         }
     }
 

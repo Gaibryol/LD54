@@ -74,6 +74,9 @@ public class Tetris : MonoBehaviour
 
     private void RestartGameHandler(BrokerEvent<GameStateEvents.RestartGame> @event)
     {
+        StopAllCoroutines();
+        playing = false;
+
         foreach (Block block in allBlocks)
         {
             if (block != null)
@@ -82,9 +85,6 @@ public class Tetris : MonoBehaviour
         activeBlocks.Clear();
         currentTemplate = null;
         currentPiecesTemplates = null;
-
-        nextPiecesTemplates = null;
-        nextPiecesTemplates = null;
 
         savedPiecesTemplates = null;
         savedPiece = null;

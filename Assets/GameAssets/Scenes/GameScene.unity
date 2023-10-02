@@ -3689,6 +3689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 2135000562}
+  helpText: {fileID: 1916106278}
 --- !u!1 &1245714565
 GameObject:
   m_ObjectHideFlags: 0
