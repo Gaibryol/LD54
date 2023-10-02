@@ -21,7 +21,7 @@ public class TetrisPieces
         FillSpawningBag();
     }
 
-    public PieceTemplate[] GetRandomTemplateList()
+    public PieceTemplate[] GetRandomTemplateList(bool starting=false)
     {
         if (spawningBag.Count == 0)
         {
@@ -29,6 +29,10 @@ public class TetrisPieces
         }
 
 		int index = UnityEngine.Random.Range(0, spawningBag.Count);
+        if (starting)
+        {
+            index = UnityEngine.Random.Range(0, 5);
+        }
         int pieceType = spawningBag[index];
         spawningBag.RemoveAt(index);
         switch (pieceType)
@@ -40,13 +44,13 @@ public class TetrisPieces
             case 2:
                 return LPieces;
             case 3:
-                return ZReversePieces;
-            case 4:
-                return ZPieces;
-            case 5:
-                return TPieces;
-            case 6:
                 return LReversePieces;
+            case 4:
+                return TPieces;
+            case 5:
+                return ZPieces;
+            case 6:
+                return ZReversePieces;
             default:
                 return null;
         }

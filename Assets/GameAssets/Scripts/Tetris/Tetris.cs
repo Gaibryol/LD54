@@ -42,7 +42,7 @@ public class Tetris : MonoBehaviour
 
     void Start()
     {
-        GetNextPiece();
+        GetNextPiece(true);
         UpdateGuideWindow();
 
 		numCombos = 0;
@@ -182,9 +182,9 @@ public class Tetris : MonoBehaviour
     #endregion
 
     #region Preview
-    private void GetNextPiece()
+    private void GetNextPiece(bool isStarting = false)
     {
-        nextPiecesTemplates = tetrisPieces.GetRandomTemplateList();
+        nextPiecesTemplates = tetrisPieces.GetRandomTemplateList(isStarting);
         nextPieceToSpawn = nextPiecesTemplates[Random.Range(0, nextPiecesTemplates.Length)];
         eventBrokerComponent.Publish(this, new TetrisEvents.UpdatePreviewWindow(nextPieceToSpawn));
     }
