@@ -33,4 +33,14 @@ public class TetrisEvents
             PieceTemplate = pieceTemplate;
         }
     }
+
+    public class UpdateSavedWindow
+    {
+        public readonly PieceTemplate PieceTemplate;
+
+        public UpdateSavedWindow(PieceTemplate pieceTemplate)
+        {
+            PieceTemplate = pieceTemplate;
+        }
+    }
 }

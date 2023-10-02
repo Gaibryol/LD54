@@ -7,6 +7,7 @@ public class TetrisPreviewWindow : MonoBehaviour
 {
     [SerializeField] private Vector2Int WindowLocation;
     [SerializeField] private Block blockTemplate;
+    [SerializeField] private bool isSavedWindow;
 
     private List<Block> blocks = new List<Block>();
 
@@ -14,12 +15,29 @@ public class TetrisPreviewWindow : MonoBehaviour
 
     private void OnEnable()
     {
-        eventBrokerComponent.Subscribe<TetrisEvents.UpdatePreviewWindow>(UpdatePreviewWindowHandler);
+        if (isSavedWindow)
+        {
+            eventBrokerComponent.Subscribe<TetrisEvents.UpdateSavedWindow>(UpdateSavedWindowHandler);
+        } else
+        {
+            eventBrokerComponent.Subscribe<TetrisEvents.UpdatePreviewWindow>(UpdatePreviewWindowHandler);
+        }
     }
+
 
     private void OnDisable()
     {
-        eventBrokerComponent.Unsubscribe<TetrisEvents.UpdatePreviewWindow>(UpdatePreviewWindowHandler);
+        if (isSavedWindow)
+        {
+            eventBrokerComponent.Unsubscribe<TetrisEvents.UpdateSavedWindow>(UpdateSavedWindowHandler);
+        } else 
+        {
+            eventBrokerComponent.Unsubscribe<TetrisEvents.UpdatePreviewWindow>(UpdatePreviewWindowHandler);
+        }
+    }
+    private void UpdateSavedWindowHandler(BrokerEvent<TetrisEvents.UpdateSavedWindow> inEvent)
+    {
+        UpdatePreviewWindow(inEvent.Payload.PieceTemplate);
     }
 
     private void UpdatePreviewWindowHandler(BrokerEvent<TetrisEvents.UpdatePreviewWindow> inEvent)

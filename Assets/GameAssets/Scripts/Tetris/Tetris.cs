@@ -17,11 +17,18 @@ public class Tetris : MonoBehaviour
     #region Current 
     private List<Block> activeBlocks;
     private PieceTemplate currentTemplate;
+    private PieceTemplate[] currentPiecesTemplates;
     #endregion
 
     #region Next
     private PieceTemplate[] nextPiecesTemplates;
-    private PieceTemplate pieceToSpawn;
+    private PieceTemplate nextPieceToSpawn;
+    #endregion
+
+    #region Saved
+    private PieceTemplate[] savedPiecesTemplates;
+    private PieceTemplate savedPiece;
+    private bool isSwappedPiece;
     #endregion
 
     private List<Block> allBlocks;
@@ -97,18 +104,73 @@ public class Tetris : MonoBehaviour
         StartCoroutine(TickPiece());
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            SavePiece();
+        }
+    }
+
     private void FixedUpdate()
     {
         if (!playing || updatingBoard) return;
         ClearLines();
     }
 
+    #region Saving
+    private void SavePiece()
+    {
+        if (!playing) return;
+        if (activeBlocks.Count == 0) return; // There is no active piece to swap
+        if (updatingBoard) return;
+        if (isSwappedPiece) return;
+
+        isSwappedPiece = true;
+        if (savedPiece == null) // add current piece to saved, spawn next piece on next tick
+        {
+            savedPiece = currentTemplate;
+            savedPiecesTemplates = currentPiecesTemplates;
+            currentPiecesTemplates = nextPiecesTemplates;
+            currentTemplate = nextPieceToSpawn;
+            GetNextPiece();
+            
+        } else
+        {
+            // there exists a saved piece, swap with active piece and spawn
+            PieceTemplate temp = savedPiece;
+            PieceTemplate[] tempTemplates = savedPiecesTemplates;
+
+            savedPiece = currentTemplate;
+            savedPiecesTemplates = currentPiecesTemplates;
+            currentTemplate = temp;
+            currentPiecesTemplates = tempTemplates;
+
+        }
+
+
+        DestoryActivePiece();
+        eventBrokerComponent.Publish(this, new TetrisEvents.UpdatePreviewWindow(nextPieceToSpawn));
+        eventBrokerComponent.Publish(this, new TetrisEvents.UpdateGuideWindow(nextPieceToSpawn));
+        eventBrokerComponent.Publish(this, new TetrisEvents.UpdateSavedWindow(savedPiece));
+    }
+
+    private void DestoryActivePiece()
+    {
+        foreach (Block block in activeBlocks)
+        {
+            Destroy(block.gameObject);
+        }
+        activeBlocks.Clear();
+    }
+    #endregion
+
     #region Preview
     private void GetNextPiece()
     {
         nextPiecesTemplates = tetrisPieces.GetRandomTemplateList();
-        pieceToSpawn = nextPiecesTemplates[Random.Range(0, nextPiecesTemplates.Length)];
-        eventBrokerComponent.Publish(this, new TetrisEvents.UpdatePreviewWindow(pieceToSpawn));
+        nextPieceToSpawn = nextPiecesTemplates[Random.Range(0, nextPiecesTemplates.Length)];
+        eventBrokerComponent.Publish(this, new TetrisEvents.UpdatePreviewWindow(nextPieceToSpawn));
     }
 
     private void RotatePreviewBlockHandler(BrokerEvent<TetrisEvents.RotatePreviewBlock> inEvent)
@@ -118,7 +180,7 @@ public class Tetris : MonoBehaviour
 
     public void RotatePreviewPiece(bool clockwise)
     {
-        int currentIndex = nextPiecesTemplates.ToList().IndexOf(pieceToSpawn);
+        int currentIndex = nextPiecesTemplates.ToList().IndexOf(nextPieceToSpawn);
         int nextIndex = clockwise ? currentIndex + 1 : currentIndex - 1;
         if (nextIndex < 0)
         {
@@ -128,14 +190,14 @@ public class Tetris : MonoBehaviour
         {
             nextIndex = 0;
         }
-        pieceToSpawn = nextPiecesTemplates[nextIndex];
-        eventBrokerComponent.Publish(this, new TetrisEvents.UpdatePreviewWindow(pieceToSpawn));
-        eventBrokerComponent.Publish(this, new TetrisEvents.UpdateGuideWindow(pieceToSpawn));
+        nextPieceToSpawn = nextPiecesTemplates[nextIndex];
+        eventBrokerComponent.Publish(this, new TetrisEvents.UpdatePreviewWindow(nextPieceToSpawn));
+        eventBrokerComponent.Publish(this, new TetrisEvents.UpdateGuideWindow(nextPieceToSpawn));
     }
 
     private void UpdateGuideWindow()
     {
-        eventBrokerComponent.Publish(this, new TetrisEvents.UpdateGuideWindow(pieceToSpawn));
+        eventBrokerComponent.Publish(this, new TetrisEvents.UpdateGuideWindow(nextPieceToSpawn));
     }
     #endregion
 
@@ -143,7 +205,11 @@ public class Tetris : MonoBehaviour
     private int counter = 0;    // TEMP DEBUG PURPOSES
     private void SpawnPiece()
     {
-        currentTemplate = pieceToSpawn;
+        if (!isSwappedPiece)
+        {
+            currentTemplate = nextPieceToSpawn;
+            currentPiecesTemplates = nextPiecesTemplates;
+        }
         // TODO: Change Spawn location to player location
 
         //List<Block> newBlocks = currentTemplate.SpawnTemplate(blockTemplate, new Vector2Int(0, counter%TetrisConstants.COLS), transform);
@@ -213,6 +279,7 @@ public class Tetris : MonoBehaviour
                 block.isMoving = false;
             }
             updatingBoard = false;
+            isSwappedPiece = false;
             activeBlocks.Clear();
 			eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.PieceLand));
 		}
@@ -320,7 +387,10 @@ public class Tetris : MonoBehaviour
 					eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Death));
 					break;
                 }
-                GetNextPiece();
+                if (!isSwappedPiece)
+                {
+                    GetNextPiece();
+                }
                 UpdateGuideWindow();
             } else
             {
