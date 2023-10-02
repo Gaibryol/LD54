@@ -60,7 +60,7 @@ public class Guide : MonoBehaviour
 
         if (inEvent.Payload.PieceTemplate == null) return;
         pieceTemplate = inEvent.Payload.PieceTemplate;
-        blocks = pieceTemplate.SpawnTemplate(blockTemplate, Vector2Int.zero, transform, true, 2);
+        blocks = pieceTemplate.SpawnTemplate(blockTemplate, Vector2Int.zero, transform, true, 3);
         foreach (Block block in blocks)
         {
             block.transform.localPosition += (Vector3)pieceTemplate.guidePreviewOffset * TetrisConstants.BLOCK_SIZE;
