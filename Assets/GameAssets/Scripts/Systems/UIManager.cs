@@ -151,6 +151,11 @@ public class UIManager : MonoBehaviour
 	private void UpdateEndUIHandler(BrokerEvent<UIEvents.UpdateEndUI> inEvent)
 	{
 		endScreen.GetComponent<Image>().sprite = inEvent.Payload.NewHighscore ? highScoreSprite : gameOverSprite;
+		
+		if (inEvent.Payload.NewHighscore)
+		{
+			highscoreText.text = ((int)gameManager.Score).ToString();
+		}
 	}
 
 	private void SecretEndingHandler(BrokerEvent<GameStateEvents.SecretEnding> inEvent)
