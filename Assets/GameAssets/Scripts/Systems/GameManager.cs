@@ -75,10 +75,7 @@ public class GameManager : MonoBehaviour
 		if (Score > hs)
 		{
 			// New highscore, display somewhere
-			if (!secretEnding)
-			{
-				eventBroker.Publish(this, new UIEvents.UpdateEndUI(true));
-			}
+			eventBroker.Publish(this, new UIEvents.UpdateEndUI(true, secretEnding));
 
 			// Save new highscore
 			PlayerPrefs.SetInt(Constants.Player.Highscore, (int)Score);
@@ -87,7 +84,7 @@ public class GameManager : MonoBehaviour
 		else
 		{
 			// Game over
-			eventBroker.Publish(this, new UIEvents.UpdateEndUI(false));
+			eventBroker.Publish(this, new UIEvents.UpdateEndUI(false, secretEnding));
 		}
 	}
 
