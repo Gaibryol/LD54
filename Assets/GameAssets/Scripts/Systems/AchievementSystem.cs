@@ -33,39 +33,71 @@ public class AchievementSystem : MonoBehaviour
 		switch (inEvent.Payload.Achievement)
 		{
 			case Constants.Achievements.Combo20Times:
-				Combo20Times = true;
+				if (Combo20Times != true)
+				{
+					eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Achievement));
+					Combo20Times = true;
+				}
 				break;
 
 			case Constants.Achievements.EarnBigCombo:
-				EarnBigCombo = true;
+				if (EarnBigCombo != true)
+				{
+					eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Achievement));
+					EarnBigCombo = true;
+				}
 				break;
 
 			case Constants.Achievements.Escaped:
-				Escaped = true;
+				if (Escaped != true)
+				{
+					eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Achievement));
+					Escaped = true;
+				}
 				break;
 
 			case Constants.Achievements.Jump100Times:
-				Jump100Times = true;
+				if (Jump100Times != true)
+				{
+					eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Achievement));
+					Jump100Times = true;
+				}
 				break;
 
 			case Constants.Achievements.Earn1000Points:
-				Earn1000Points = true;
+				if (Earn1000Points != true)
+				{
+					eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Achievement));
+					Earn1000Points = true;
+				}
 				break;
 
 			case Constants.Achievements.Earn2000Points:
-				Earn2000Points = true;
+				if (Earn2000Points != true)
+				{
+					eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Achievement));
+					Earn2000Points = true;
+				}
 				break;
 
 			case Constants.Achievements.Earn3000Points:
-				Earn3000Points = true;
+				if (Earn3000Points != true)
+				{
+					eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Achievement));
+					Earn3000Points = true;
+				}
 				break;
 
 			case Constants.Achievements.Rotate50Times:
-				Rotate50Times = true;
+				if (Rotate50Times != true)
+				{
+					eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Achievement));
+					Rotate50Times = true;
+				}
 				break;
 		}
 
-		eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Achievement));
+		
 		PlayerPrefs.SetInt(inEvent.Payload.Achievement, boolToInt(true));
 		PlayerPrefs.Save();
 	}
