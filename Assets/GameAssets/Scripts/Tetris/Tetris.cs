@@ -397,6 +397,7 @@ public class Tetris : MonoBehaviour
         {
             if (activeBlocks.Count == 0)
             {
+				yield return new WaitForSeconds(tickRate);
                 SpawnPiece();
                 tickRate = Mathf.Clamp(tickRate - TetrisConstants.TICK_RATE_DECREASE_AMOUNT, TetrisConstants.MIN_TICK_RATE, TetrisConstants.TICK_RATE);
                 if (!IsValidSpawn() || !BlockPassedThreshold())
