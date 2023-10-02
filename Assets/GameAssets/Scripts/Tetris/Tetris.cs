@@ -74,10 +74,25 @@ public class Tetris : MonoBehaviour
 
     private void RestartGameHandler(BrokerEvent<GameStateEvents.RestartGame> @event)
     {
-        foreach (Block block in  allBlocks)
+        foreach (Block block in allBlocks)
         {
-            Destroy(block.gameObject);
+            if (block != null)
+                Destroy(block.gameObject);
         }
+        activeBlocks.Clear();
+        currentTemplate = null;
+        currentPiecesTemplates = null;
+
+        nextPiecesTemplates = null;
+        nextPiecesTemplates = null;
+
+        savedPiecesTemplates = null;
+        savedPiece = null;
+        isSwappedPiece = false;
+
+        eventBrokerComponent.Publish(this, new TetrisEvents.UpdatePreviewWindow(nextPieceToSpawn));
+        eventBrokerComponent.Publish(this, new TetrisEvents.UpdateGuideWindow(nextPieceToSpawn));
+        eventBrokerComponent.Publish(this, new TetrisEvents.UpdateSavedWindow(savedPiece));
     }
 
     private void StartGameHandler(BrokerEvent<GameStateEvents.StartGame> @event)
@@ -98,6 +113,7 @@ public class Tetris : MonoBehaviour
         allBlocks = new List<Block>();
         playing = true;
         updatingBoard = false;
+        isSwappedPiece = false;
 
 		numCombos = 0;
 

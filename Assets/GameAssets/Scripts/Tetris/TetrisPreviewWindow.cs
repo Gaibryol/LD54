@@ -48,6 +48,7 @@ public class TetrisPreviewWindow : MonoBehaviour
     public void UpdatePreviewWindow(PieceTemplate pieceTemplate)
     {
         DestoryOldPreview();
+        if (pieceTemplate == null) return;
         blocks = pieceTemplate.SpawnTemplate(blockTemplate, WindowLocation, transform, false);
         foreach (Block block in blocks)
         {
@@ -59,7 +60,8 @@ public class TetrisPreviewWindow : MonoBehaviour
     {
         foreach (Block block in blocks)
         {
-            Destroy(block.gameObject);
+            if (block != null) 
+                Destroy(block.gameObject);
         }
     }
 }
