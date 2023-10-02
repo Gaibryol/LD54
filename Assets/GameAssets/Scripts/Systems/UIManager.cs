@@ -250,7 +250,6 @@ public class UIManager : MonoBehaviour
 	{
 		if (gameManager == null) return;
 
-		Time.timeScale = 0f;
 		restartPanel.SetActive(true);
 		eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Button));
 	}
@@ -260,13 +259,11 @@ public class UIManager : MonoBehaviour
 		eventBroker.Publish(this, new GameStateEvents.RestartGame());
 		endScreen.SetActive(false);
 		restartPanel.SetActive(false);
-		Time.timeScale = 1f;
 		eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Button));
 	}
 
 	private void CancelRestart()
 	{
-		Time.timeScale = 1f;
 		restartPanel.SetActive(false);
 		eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Button));
 	}
