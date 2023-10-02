@@ -203,7 +203,6 @@ public class UIManager : MonoBehaviour
 				break;
 		}
 
-		achievementBox.transform.position = inEvent.Payload.Position + new Vector3(Constants.Achievements.AchievementBoxOffset.x, Constants.Achievements.AchievementBoxOffset.y, 0);
 		achievementBox.SetActive(true);
 	}
 
