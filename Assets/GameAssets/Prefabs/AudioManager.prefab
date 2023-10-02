@@ -185,6 +185,7 @@ MonoBehaviour:
   rowClear: {fileID: 8300000, guid: bd99da40f40b8574c983847116f9897d, type: 3}
   comboClear: {fileID: 8300000, guid: 45e2d65415c495447bdbd30851e3b5a9, type: 3}
   jump: {fileID: 8300000, guid: 5e5e3a503cf6da44db7edfc15ebe8078, type: 3}
+  achievement: {fileID: 8300000, guid: 1134a63bbfd870f448abcde7c6cb917b, type: 3}
 --- !u!1 &3004386593684315242
 GameObject:
   m_ObjectHideFlags: 0

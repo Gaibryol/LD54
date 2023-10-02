@@ -18,6 +18,7 @@ public class AudioManager : MonoBehaviour
 	[SerializeField] private AudioClip rowClear;
 	[SerializeField] private AudioClip comboClear;
 	[SerializeField] private AudioClip jump;
+	[SerializeField] private AudioClip achievement;
 
 	private float musicVolume;
 	private float sfxVolume;
@@ -43,6 +44,7 @@ public class AudioManager : MonoBehaviour
 		sfx.Add(Constants.Audio.SFX.RowClear, rowClear);
 		sfx.Add(Constants.Audio.SFX.ComboClear, comboClear);
 		sfx.Add(Constants.Audio.SFX.Jump, jump);
+		sfx.Add(Constants.Audio.SFX.Achievement, achievement);
 
 		musicVolume = PlayerPrefs.GetFloat(Constants.Audio.MusicVolumePP, Constants.Audio.DefaultAudioLevel);
 		sfxVolume = PlayerPrefs.GetFloat(Constants.Audio.SFXVolumePP, Constants.Audio.DefaultAudioLevel);

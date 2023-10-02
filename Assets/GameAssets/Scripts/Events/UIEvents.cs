@@ -33,4 +33,21 @@ public class UIEvents
 			CountDown = countDown;
 		}
 	}
+
+	public class ShowAchievementDescription
+	{
+		public ShowAchievementDescription(string achievement, Vector3 position)
+		{
+			Achievement = achievement;
+			Position = position;
+		}
+
+		public readonly string Achievement;
+		public readonly Vector3 Position;
+	}
+
+	public class HideAchievementDescription
+	{
+		public HideAchievementDescription() { }
+	}
 }

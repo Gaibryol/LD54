@@ -1,4 +1,6 @@
 
+using UnityEngine;
+
 public partial class Constants
 {
     public class Achievements
@@ -18,5 +20,16 @@ public partial class Constants
 		public const int numPointsA = 1000;
 		public const int numPointsB = 2000;
 		public const int numPointsC = 3000;
+
+		public const string Combo20TimesDescription = "Perform a combo 20 times in a single game";
+		public const string EarnBigComboDescription = "Clear 4 lines at once";
+		public const string Earn1000PointsDescription = "Earn at least 1000 points in a single game";
+		public const string Earn2000PointsDescription = "Earn at least 2000 points in a single game";
+		public const string Earn3000PointsDescription = "Earn at least 3000 points in a single game";
+		public const string EscapedDescription = "Escape the game";
+		public const string Jump100TimesDescription = "Jump at least 100 times in a single game";
+		public const string Rotate50TimesDescription = "Rotate blocks at least 100 times in a single game";
+
+		public static readonly Vector2 AchievementBoxOffset = new Vector2(0f, 100);
 	}
 }

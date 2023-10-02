@@ -65,6 +65,7 @@ public class AchievementSystem : MonoBehaviour
 				break;
 		}
 
+		eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Achievement));
 		PlayerPrefs.SetInt(inEvent.Payload.Achievement, boolToInt(true));
 		PlayerPrefs.Save();
 	}

@@ -53,6 +53,9 @@ public class UIManager : MonoBehaviour
 	[SerializeField] private GameObject escapedAchievement;
 	[SerializeField] private GameObject jump100TimesAchievement;
 	[SerializeField] private GameObject rotate50TimesAchievement;
+	[SerializeField] private GameObject achievementBox;
+	[SerializeField] private TMP_Text achievementText;
+
 
 	private bool volumeOn;
 	private bool gridOn;
@@ -155,6 +158,52 @@ public class UIManager : MonoBehaviour
 		StartCoroutine(SecretEndingCoroutine());
 	}
 
+	private void ShowAchievementDescriptionHandler(BrokerEvent<UIEvents.ShowAchievementDescription> inEvent)
+	{
+		switch (inEvent.Payload.Achievement)
+		{
+			case Constants.Achievements.Combo20Times:
+				achievementText.text = Constants.Achievements.Combo20TimesDescription;
+				break;
+
+			case Constants.Achievements.EarnBigCombo:
+				achievementText.text = Constants.Achievements.EarnBigComboDescription;
+				break;
+
+			case Constants.Achievements.Escaped:
+				achievementText.text = Constants.Achievements.EscapedDescription;
+				break;
+
+			case Constants.Achievements.Jump100Times:
+				achievementText.text = Constants.Achievements.Jump100TimesDescription;
+				break;
+
+			case Constants.Achievements.Earn1000Points:
+				achievementText.text = Constants.Achievements.Earn1000PointsDescription;
+				break;
+
+			case Constants.Achievements.Earn2000Points:
+				achievementText.text = Constants.Achievements.Earn2000PointsDescription;
+				break;
+
+			case Constants.Achievements.Earn3000Points:
+				achievementText.text = Constants.Achievements.Earn3000PointsDescription;
+				break;
+
+			case Constants.Achievements.Rotate50Times:
+				achievementText.text = Constants.Achievements.Rotate50TimesDescription;
+				break;
+		}
+
+		achievementBox.transform.position = inEvent.Payload.Position + new Vector3(Constants.Achievements.AchievementBoxOffset.x, Constants.Achievements.AchievementBoxOffset.y, 0);
+		achievementBox.SetActive(true);
+	}
+
+	private void HideAchievementDescriptionHandler(BrokerEvent<UIEvents.HideAchievementDescription> inEvent)
+	{
+		achievementBox.SetActive(false);
+	}
+
 	private IEnumerator SecretEndingCoroutine()
 	{
 		isPlaying = false;
@@ -241,6 +290,8 @@ public class UIManager : MonoBehaviour
 		eventBroker.Subscribe<UIEvents.UpdateCountDownUI>(UpdateCountDownUIHandler);
 		eventBroker.Subscribe<UIEvents.UpdateStartUI>(UpdateStartUIHandler);
 		eventBroker.Subscribe<AchievementEvents.EarnAchievement>(EarnAchievementHandler);
+		eventBroker.Subscribe<UIEvents.ShowAchievementDescription>(ShowAchievementDescriptionHandler);
+		eventBroker.Subscribe<UIEvents.HideAchievementDescription>(HideAchievementDescriptionHandler);
 
 		infoButton.onClick.AddListener(ToggleInfo);
 		volumeButton.onClick.AddListener(ToggleVolume);
@@ -260,6 +311,8 @@ public class UIManager : MonoBehaviour
         eventBroker.Unsubscribe<UIEvents.UpdateCountDownUI>(UpdateCountDownUIHandler);
 		eventBroker.Unsubscribe<UIEvents.UpdateStartUI>(UpdateStartUIHandler);
 		eventBroker.Unsubscribe<AchievementEvents.EarnAchievement>(EarnAchievementHandler);
+		eventBroker.Unsubscribe<UIEvents.ShowAchievementDescription>(ShowAchievementDescriptionHandler);
+		eventBroker.Unsubscribe<UIEvents.HideAchievementDescription>(HideAchievementDescriptionHandler);
 
 		infoButton.onClick.RemoveListener(ToggleInfo);
 		volumeButton.onClick.RemoveListener(ToggleVolume);
