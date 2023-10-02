@@ -15,8 +15,10 @@ public partial class Constants
 
 		public const float RayXOffsetA = 0.11f;
 		public const float RayXOffsetB = 0.11f;
-		public const float UpRayDistance = 0.28f;
-		public const float DownRayDistance = 0.25f;
+		public const float RayYOffsetA = 0.10f;
+		public const float RayYOffsetB = 0.15f;
+		public const float UpRayDistance = 0.10f;
+		public const float DownRayDistance = 0.10f;
 
 		public const int LinesCleared1 = 100;
 		public const int LinesCleared2 = 250;
