@@ -25,6 +25,7 @@ public partial class Constants
 			public const string ComboClear = "Combo";
 			public const string Jump = "Jump";
 			public const string Achievement = "Achievement";
+			public const string PieceDrop = "PieceDrop";
 		}
 	}
 }

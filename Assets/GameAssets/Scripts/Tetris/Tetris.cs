@@ -399,6 +399,7 @@ public class Tetris : MonoBehaviour
             {
 				yield return new WaitForSeconds(tickRate);
                 SpawnPiece();
+				eventBrokerComponent.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.PieceDrop));
                 tickRate = Mathf.Clamp(tickRate - TetrisConstants.TICK_RATE_DECREASE_AMOUNT, TetrisConstants.MIN_TICK_RATE, TetrisConstants.TICK_RATE);
                 if (!IsValidSpawn() || !BlockPassedThreshold())
                 {
