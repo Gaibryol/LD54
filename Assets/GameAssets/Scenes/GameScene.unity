@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b9035eb42e58248b90aed54eebf9dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  achievement: Jump100Times
+  achievement: LockedJump100Times
 --- !u!114 &25630206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,7 +461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b9035eb42e58248b90aed54eebf9dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  achievement: Rotate50Times
+  achievement: LockedRotate50Times
 --- !u!114 &36073055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,7 +551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b9035eb42e58248b90aed54eebf9dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  achievement: Earn2000Points
+  achievement: LockedEarn2000Points
 --- !u!114 &180787157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2437,8 +2437,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0.1277, y: -0}
+  m_SizeDelta: {x: 213.0326, y: 70.4434}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &750379657
 MonoBehaviour:
@@ -2460,7 +2460,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Description
+  m_text: 'Block Ballet: Rotate blocks at least 100 times in a single game'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d4db085d62b982647a0f94f77cb9dc2c, type: 2}
   m_sharedMaterial: {fileID: -7352520475864602084, guid: d4db085d62b982647a0f94f77cb9dc2c, type: 2}
@@ -2487,8 +2487,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2588,7 +2588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b9035eb42e58248b90aed54eebf9dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  achievement: Earn1000Points
+  achievement: LockedEarn1000Points
 --- !u!114 &811780392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3159,7 +3159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b9035eb42e58248b90aed54eebf9dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  achievement: Earn3000Points
+  achievement: LockedEarn3000Points
 --- !u!114 &971517417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3481,7 +3481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b9035eb42e58248b90aed54eebf9dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  achievement: EarnBigCombo
+  achievement: LockedEarnBigCombo
 --- !u!114 &1195306973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4378,7 +4378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b9035eb42e58248b90aed54eebf9dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  achievement: Combo20Times
+  achievement: LockedCombo20Times
 --- !u!114 &1630748156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5518,7 +5518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b9035eb42e58248b90aed54eebf9dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  achievement: Escaped
+  achievement: LockedEscaped
 --- !u!114 &2046336819
 MonoBehaviour:
   m_ObjectHideFlags: 0

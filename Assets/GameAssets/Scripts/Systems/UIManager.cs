@@ -201,6 +201,38 @@ public class UIManager : MonoBehaviour
 			case Constants.Achievements.Rotate50Times:
 				achievementText.text = Constants.Achievements.Rotate50TimesDescription;
 				break;
+
+			case Constants.Achievements.LockedCombo20Times:
+				achievementText.text = Constants.Achievements.LockedCombo20TimesDescription;
+				break;
+
+			case Constants.Achievements.LockedEarnBigCombo:
+				achievementText.text = Constants.Achievements.LockedEarnBigComboDescription;
+				break;
+
+			case Constants.Achievements.LockedEscaped:
+				achievementText.text = Constants.Achievements.LockedEscapedDescription;
+				break;
+
+			case Constants.Achievements.LockedJump100Times:
+				achievementText.text = Constants.Achievements.LockedJump100TimesDescription;
+				break;
+
+			case Constants.Achievements.LockedEarn1000Points:
+				achievementText.text = Constants.Achievements.LockedEarn1000PointsDescription;
+				break;
+
+			case Constants.Achievements.LockedEarn2000Points:
+				achievementText.text = Constants.Achievements.LockedEarn2000PointsDescription;
+				break;
+
+			case Constants.Achievements.LockedEarn3000Points:
+				achievementText.text = Constants.Achievements.LockedEarn3000PointsDescription;
+				break;
+
+			case Constants.Achievements.LockedRotate50Times:
+				achievementText.text = Constants.Achievements.LockedRotate50TimesDescription;
+				break;
 		}
 
 		achievementBox.SetActive(true);
