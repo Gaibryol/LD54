@@ -154,7 +154,7 @@ public class PlayerController : MonoBehaviour
 		rbody.gravityScale = inEvent.Payload.Amount;
 	}
 
-	private void FixedUpdate()
+	private void Update()
 	{
 		// Assign player velocity
 		Vector2 moveDirection = move.ReadValue<Vector2>();
@@ -189,7 +189,7 @@ public class PlayerController : MonoBehaviour
 			anim.SetTrigger(Constants.Player.LandAnimTrigger);
 		}
 
-		if ((rayUpA.collider?.tag == Constants.GroundTag || rayUpB.collider?.tag == Constants.GroundTag) && grounded && (rayUpA.collider?.GetComponent<Block>().isMoving == true || rayUpB.collider?.GetComponent<Block>().isMoving == true))
+		if (grounded && (rayUpA.collider?.tag == Constants.GroundTag || rayUpB.collider?.tag == Constants.GroundTag) && (rayUpA.collider?.GetComponent<Block>().isMoving == true || rayUpB.collider?.GetComponent<Block>().isMoving == true))
 		{
 			// Player collided with the bottom of an object while grounded
 			if (playing)
@@ -198,8 +198,11 @@ public class PlayerController : MonoBehaviour
 				eventBroker.Publish(this, new AudioEvents.PlaySFX(Constants.Audio.SFX.Death));
 				//Debug.Log("Block: " + rayUpA.collider?.gameObject.name + " or " + rayUpB.collider?.gameObject.name);
 				//Debug.Log("Moving: " + rayUpA.collider?.GetComponent<Block>().isMoving + " or " + rayUpB.collider?.GetComponent<Block>().isMoving);
-				//Debug.DrawLine(new Vector2(transform.position.x - Constants.Player.RayXOffsetA, transform.position.y), new Vector2(transform.position.x - Constants.Player.RayXOffsetA, transform.position.y + Constants.Player.UpRayDistance), Color.cyan, Mathf.Infinity);
-				//Debug.DrawLine(new Vector2(transform.position.x + Constants.Player.RayXOffsetB, transform.position.y), new Vector2(transform.position.x + Constants.Player.RayXOffsetB, transform.position.y + Constants.Player.UpRayDistance), Color.cyan, Mathf.Infinity);
+				//Debug.Log("Grounded: " + grounded);
+				//Debug.DrawLine(new Vector2(transform.position.x - Constants.Player.RayXOffsetA, transform.position.y), new Vector2(transform.position.x - Constants.Player.RayXOffsetA, transform.position.y + Constants.Player.UpRayDistance), Color.green, Mathf.Infinity);
+				//Debug.DrawLine(new Vector2(transform.position.x + Constants.Player.RayXOffsetB, transform.position.y), new Vector2(transform.position.x + Constants.Player.RayXOffsetB, transform.position.y + Constants.Player.UpRayDistance), Color.green, Mathf.Infinity);
+				//Debug.DrawLine(new Vector2(transform.position.x - Constants.Player.RayXOffsetA, transform.position.y), new Vector2(transform.position.x - Constants.Player.RayXOffsetA, transform.position.y - Constants.Player.DownRayDistance), Color.cyan, Mathf.Infinity);
+				//Debug.DrawLine(new Vector2(transform.position.x + Constants.Player.RayXOffsetB, transform.position.y), new Vector2(transform.position.x + Constants.Player.RayXOffsetB, transform.position.y - Constants.Player.DownRayDistance), Color.cyan, Mathf.Infinity);
 				//Debug.Break();
 			}
 		}
